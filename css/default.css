@@ -1,14 +1,13 @@
 *
 {
-	font-family: "Montserrat", "Arial";
+	font-family: 'Montserrat', sans-serif;
 }
 
 body
 {
 	margin: auto;
-	margin-top: 20px;
 	max-width: 1050px;
-	background-color: LightGray;
+	font-size: large;
 }
 
 table.geq
@@ -16,9 +15,13 @@ table.geq
 	border: 1px solid black;
 	margin: 30px 10px 10px 190px;
 	padding: 10px;
-	background-color: LightGray;
 	box-shadow: 0px 2px 4px 0px #666666;
 	text-align: center;
+}
+
+tr.geq
+{
+	border: 1px solid black;
 }
 
 td.geq
@@ -26,8 +29,6 @@ td.geq
 	border: 0px;
 	padding: 1px;
 	margin: 0px;
-	font-weight: bold;
-	font-size: large;
 }
 
 .volume-slider
@@ -38,8 +39,7 @@ td.geq
 h1
 {
 	margin: 0px 0px 10px 0px;
-	font-size: x-large;
-	font-weight: bold;
+	font-size: xx-large;
 	text-decoration: underline;
 }
 
@@ -48,7 +48,6 @@ h2
 {
 	margin: 10px 0px;
 	font-size: x-large;
-	font-weight: bold;
 	text-decoration: underline;
 }
 
@@ -57,16 +56,12 @@ h3
 	border: 0px;
 	padding: 0px;
 	margin: 0px 0px 5px 0px;
-	font-size: large;
-	font-weight: bold;
 	text-decoration: underline;
 }
 
 h4
 {
 	margin: 10px 0px;
-	font-size: large;
-	font-weight: bold;
 	text-decoration: underline;
 }
 
@@ -90,7 +85,6 @@ input[type="text"], input[type="password"], textarea
 	border: 1px solid black;
 	margin: 30px 10px 10px 190px;
 	padding: 10px;
-	background-color: LightGray;
 	box-shadow: 0px 2px 4px 0px #666666;
 }
 
@@ -101,7 +95,6 @@ input[type="text"], input[type="password"], textarea
 	margin: 0px 10px 10px 10px;
 	padding: 10px;
 	width: 140px;
-	background-color: LightGray;
 	box-shadow: 0px 2px 4px 0px #666666;
 }
 
