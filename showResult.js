@@ -1,9 +1,9 @@
 // Enable strict mode
 "use strict";
 
-function showResult(numberChosen, numberCorrect) {
-  let numberAbbreviated = numberAbbreviator(numberChosen);
-  if(numberChosen == numberCorrect)
+function showResult(frequencyChosen, frequencyCorrect) {
+  let numberAbbreviated = numberAbbreviator(frequencyChosen);
+  if(frequencyChosen == frequencyCorrect)
   {
     window.alert(numberAbbreviated + 'Hz is correct!\nLet\'s try another one!');
     window.location.href=window.location.href;
