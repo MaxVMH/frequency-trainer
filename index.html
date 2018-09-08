@@ -59,6 +59,7 @@
   </table>
   <script>
   const frequency = createRandomFrequency('easy');
+  toneGenerator(frequency).play();
 
   const playButton = document.getElementById('play-button');
   playButton.addEventListener('click', function(){
