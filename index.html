@@ -20,22 +20,22 @@
     <tr>
       <td class="geq">
         100 Hz <br />
-        <img id="100" src="img/fader.png" /><br />
+        <img class="geqfader" frequency="100" src="img/fader.png" /><br />
         100 Hz
       </td>
       <td class="geq">
         400 Hz <br />
-        <img id="400" src="img/fader.png" /><br />
+        <img class="geqfader" frequency="400" src="img/fader.png" /><br />
         400 Hz
       </td>
       <td class="geq">
         1.6 kHz <br />
-        <img id="1600" src="img/fader.png" /><br />
+        <img class="geqfader" frequency="1600" src="img/fader.png" /><br />
         1.6 kHz
       </td>
       <td class="geq">
         6.3 kHz <br />
-        <img id="6300" src="img/fader.png" /><br />
+        <img class="geqfader" frequency="6300" src="img/fader.png" /><br />
         6.3 kHz
       </td>
     </tr>
@@ -58,33 +58,28 @@
     </tr>
   </table>
   <script>
-  const frequency = createRandomFrequency('easy');
-  toneGenerator(frequency).play();
+  // Pick a frequency and generate the tone
+  const toneFrequency = createRandomFrequency('easy');
+  toneGenerator(toneFrequency).play();
 
+  // Make the play and stop buttons work
   const playButton = document.getElementById('play-button');
   playButton.addEventListener('click', function(){
-    toneGenerator(frequency).play();
+    toneGenerator(toneFrequency).play();
   });
-
   const stopButton = document.getElementById('stop-button');
   stopButton.addEventListener('click', function(){
-    toneGenerator(frequency).stop();
+    toneGenerator(toneFrequency).stop();
   });
 
+  // Show result when user clicks on a fader
+  let geqFaders = document.getElementsByClassName('geqfader');
+  for(let geqFader of geqFaders){
+    geqFader.addEventListener('click', function(e) {
+      showResult(e.target.getAttribute('frequency'), toneFrequency);
+    });
+  }
 
-
-  document.getElementById('100').addEventListener('click', function() {
-    showResult('100', frequency)
-  });
-  document.getElementById('400').addEventListener('click', function() {
-    showResult('400', frequency)
-  });
-  document.getElementById('1600').addEventListener('click', function() {
-    showResult('1600', frequency)
-  });
-  document.getElementById('6300').addEventListener('click', function() {
-    showResult('6300', frequency)
-  });
   </script>
 
 </body>
