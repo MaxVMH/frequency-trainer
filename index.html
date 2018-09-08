@@ -6,7 +6,6 @@
   <link href="https://fonts.googleapis.com/css?family=Montserrat:900" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="css/default.css" />
   <script src="toneGenerator.js"></script>
-  <script src="showResult.js"></script>
 </head>
 <body>
 
@@ -48,35 +47,23 @@
       <td colspan="4" class="geq">
         Volume:<br />
         <br />
-        <input id="volume-slider" type="range" min="0" max="20" value="1" step="1" class="volume-slider"></input><br />
+        <input id="volume-control" type="range" min="0" max="20" value="2" step="0.1" class="volume-control"></input><br />
         <br />
-        <button type="button" id="play-button" style="font-size: 20px;">Start</button>
-        <button type="button" id="stop-button" style="font-size: 20px;">Stop</button><br />
+        <button type="button" id="start-button" class="control-button">Start</button>
+        <button type="button" id="stop-button" class="control-button">Stop</button><br />
         <br />
-        <button type="button" onclick="window.location.href=window.location.href" style="font-size: 20px;">Next</button>
+        <button type="button" id="next-button" class="control-button">Next</button>
       </td>
     </tr>
   </table>
   <script>
-  // Pick a frequency and generate the tone
-  const toneFrequency = createRandomFrequency('easy');
-  toneGenerator(toneFrequency).play();
-
-  // Play and stop buttons
-  const playButton = document.getElementById('play-button');
-  playButton.addEventListener('click', function(){
-    toneGenerator(toneFrequency).play();
-  });
-  const stopButton = document.getElementById('stop-button');
-  stopButton.addEventListener('click', function(){
-    toneGenerator(toneFrequency).stop();
-  });
+  createToneGenerator('easy');
 
   // Show result when user clicks on a fader
   let geqFaders = document.getElementsByClassName('geqfader');
   for(let geqFader of geqFaders){
     geqFader.addEventListener('click', function(e) {
-      showResult(e.target.getAttribute('frequency'), toneFrequency);
+      showResult(e.target.getAttribute('frequency'), frequency);
     });
   }
 
