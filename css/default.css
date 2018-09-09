@@ -30,12 +30,14 @@ h3
 	border: 0px;
 	padding: 0px;
 	margin: 0px 0px 5px 0px;
+	font-size: large;
 	text-decoration: underline;
 }
 
 h4
 {
 	margin: 10px 0px;
+	font-size: large;
 	text-decoration: underline;
 }
 
@@ -66,9 +68,9 @@ a:hover
 
 table.geq
 {
-	border: 1px solid black;
 	margin: auto;
 	margin-top: 30px;
+	border: 1px solid black;
 	padding: 10px;
 	box-shadow: 0px 2px 4px 0px #666666;
 	text-align: center;
@@ -81,18 +83,15 @@ tr.geq
 
 td.geq
 {
+	margin: 0px;
 	border: 0px;
 	padding: 1px;
-	margin: 0px;
+	width: auto;
 }
 
 .volume-control
 {
 	width: 100%;
-}
-
-img.geqfader
-{
 }
 
 button.control-button

@@ -123,6 +123,5 @@ function numberAbbreviator(number) {
   {
     numberAbbreviated = number + ' ';
   }
-
   return numberAbbreviated;
 };
