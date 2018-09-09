@@ -4,6 +4,8 @@ Frequency Trainer is an audio frequency trainer web app. It can be a used as a t
 
 It is mainly written in JavaScript. As it is a web app, it also consists of HTML and CSS.
 
+A demo is available: www.frequencytrainer.com
+
 # Requirements
 
 * A modern browser
