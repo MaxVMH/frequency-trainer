@@ -13,6 +13,7 @@ let volumeControl = null;
 let now = null;
 let volumeLevel = null;
 let startTimer = null;
+let stopTimer = 3;
 
 let difficultyLevel = null;
 let frequency = null;
@@ -40,11 +41,12 @@ function createToneGenerator(difficulty) {
   nextButton.addEventListener('click', changeFrequency);
   volumeControl.addEventListener('input', changeVolume);
 
-
-  amplifier.gain.value = volumeControl.value/50;
+  // Set the gain volume
+  amplifier.gain.value = volumeControl.value/100;
 };
 
 function startToneGenerator() {
+  // Create and configure the oscillator
   toneGenerator = audioCtx.createOscillator();
   toneGenerator.type = 'sine'; // could be sine, square, sawtooth or triangle
   toneGenerator.frequency.value = frequency;
@@ -52,44 +54,47 @@ function startToneGenerator() {
   // Connect toneGenerator -> amplifier -> output
   toneGenerator.connect(amplifier);
   amplifier.connect(audioCtx.destination);
+
+  // Fire up the toneGenerator
   toneGenerator.start(audioCtx.currentTime + startTimer);
-  toneGenerator.stop(audioCtx.currentTime + startTimer + 3);
+  toneGenerator.stop(audioCtx.currentTime + startTimer + stopTimer);
 };
 
 function stopToneGenerator() {
-  toneGenerator.disconnect()
+  toneGenerator.disconnect();
 };
 
 function changeFrequency() {
-  toneGenerator.disconnect();
+  stopToneGenerator();
   audioCtx.close();
-
-  oldFrequency = frequency;
-  newFrequency = createRandomFrequency(difficultyLevel);
-
-  if(oldFrequency == newFrequency)
-  {
-    newFrequency = createRandomFrequency(difficultyLevel);
-  }
-
-  frequency = newFrequency;
-
   createToneGenerator(difficultyLevel);
   startTimer = 0.1;
   startToneGenerator();
 };
 
 function changeVolume() {
-  amplifier.gain.value = volumeControl.value/50;
+  amplifier.gain.value = volumeControl.value/100;
 };
 
 function createRandomFrequency(range) {
   if(range == 'easy')
   {
-    frequencies = ["100", "400", "1600", "6300"];
-    frequency = frequencies[(Math.random() * frequencies.length) | 0];
-    return frequency;
+    frequencies = ["200", "800", "3150", "12500"];
   }
+  else if(range == 'normal')
+  {
+    frequencies = ["100", "200", "400", "800", "1600", "3150", "6300", "12500"];
+  }
+  else if(range == 'hard')
+  {
+    frequencies = ["25", "40", "63", "100", "160", "250", "400", "630", "1000", "1600", "2500", "4000", "6300", "10000", "16000"];
+  }
+  else if (range == 'pro')
+  {
+    frequencies = ["20", "25", "31.5", "40", "50", "63", "80", "100", "125", "160", "200", "250", "315", "400", "500", "630", "800", "1000", "1250", "1600", "2000", "2500", "3150", "4000", "5000", "6300", "8000", "10000", "12500", "16000", "20000"];
+  }
+  frequency = frequencies[(Math.random() * frequencies.length) | 0];
+  return frequency;
 };
 
 function showResult(frequencyChosen, frequencyCorrect) {
@@ -109,20 +114,15 @@ function showResult(frequencyChosen, frequencyCorrect) {
 };
 
 function numberAbbreviator(number) {
-  if(number == 100)
+  let numberAbbreviated = null;
+  if(number > 999)
   {
-    return '100 ';
+    numberAbbreviated = number/1000 + ' k';
   }
-  if(number == 400)
+  else
   {
-    return '400 ';
+    numberAbbreviated = number + ' ';
   }
-  if(number == 1600)
-  {
-    return '1.6 k';
-  }
-  if(number == 6300)
-  {
-    return '6.3 k';
-  }
+
+  return numberAbbreviated;
 };

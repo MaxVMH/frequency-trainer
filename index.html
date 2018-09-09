@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-
+<html lang="en">
 <head>
-  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <meta charset="utf-8" />
   <title>frequency trainer</title>
   <link href="https://fonts.googleapis.com/css?family=Montserrat:900" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="css/default.css" />
@@ -16,27 +16,7 @@
         <hr />
       </td>
     </tr>
-    <tr>
-      <td class="geq">
-        100 Hz <br />
-        <img class="geqfader" frequency="100" src="img/fader.png" /><br />
-        100 Hz
-      </td>
-      <td class="geq">
-        400 Hz <br />
-        <img class="geqfader" frequency="400" src="img/fader.png" /><br />
-        400 Hz
-      </td>
-      <td class="geq">
-        1.6 kHz <br />
-        <img class="geqfader" frequency="1600" src="img/fader.png" /><br />
-        1.6 kHz
-      </td>
-      <td class="geq">
-        6.3 kHz <br />
-        <img class="geqfader" frequency="6300" src="img/fader.png" /><br />
-        6.3 kHz
-      </td>
+    <tr id="geqfaderrow">
     </tr>
     <tr>
       <td colspan="4" class="geq">
@@ -47,7 +27,7 @@
       <td colspan="4" class="geq">
         Volume:<br />
         <br />
-        <input id="volume-control" type="range" min="0" max="20" value="2" step="0.1" class="volume-control"></input><br />
+        <input id="volume-control" type="range" min="0" max="20" value="2" step="0.1" class="volume-control" /><br />
         <br />
         <button type="button" id="start-button" class="control-button">Start</button>
         <button type="button" id="stop-button" class="control-button">Stop</button><br />
@@ -56,17 +36,31 @@
       </td>
     </tr>
   </table>
+
+
   <script>
   createToneGenerator('easy');
+
+  // Create the graphical faders
+  let geqFaderRow = document.getElementById('geqfaderrow');
+  let i=0;
+  let geqFaderFrequency = null;
+  for (geqFaderFrequency of frequencies)
+  {
+    i++;
+    let geqFaderCell = geqFaderRow.insertCell(-1);
+    geqFaderFrequencyAbbreviated = numberAbbreviator(geqFaderFrequency);
+    geqFaderCell.innerHTML = geqFaderFrequencyAbbreviated + 'Hz <br /><img class="geqfader" data-frequency="' + geqFaderFrequency + '" src="img/fader.png" /><br />' + geqFaderFrequencyAbbreviated + 'Hz';
+    geqFaderCell.className = 'geq';
+  };
 
   // Show result when user clicks on a fader
   let geqFaders = document.getElementsByClassName('geqfader');
   for(let geqFader of geqFaders){
     geqFader.addEventListener('click', function(e) {
-      showResult(e.target.getAttribute('frequency'), frequency);
+      showResult(e.target.getAttribute('data-frequency'), frequency);
     });
   }
-
   </script>
 
 </body>
