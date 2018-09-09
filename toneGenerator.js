@@ -79,7 +79,7 @@ function changeVolume() {
 function createRandomFrequency(range) {
   if(range == 'easy')
   {
-    frequencies = ["200", "800", "3150", "12500"];
+    frequencies = ["250", "800", "2500", "8000"];
   }
   else if(range == 'normal')
   {
