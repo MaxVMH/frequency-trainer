@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,58 +10,71 @@
 </head>
 <body>
 
-  <table class="geq">
-    <tr class="geq">
-      <td class="geq" colspan="4">
+  <table class="geqtable">
+    <tr class="geqtablerow">
+      <td class="geqtablecell" colspan="1">
         <h1 class="align-center">Frequency Trainer</h1>
         <hr />
       </td>
     </tr>
-    <tr id="geqfaderrow">
+    <tr id="geqtablefaderrow" class="geqtablerow">
     </tr>
     <tr>
-      <td colspan="4" class="geq">
+      <td class="geqtablecell" colspan="1">
         <hr />
-      </td>
-    </tr>
-    <tr>
-      <td colspan="4" class="geq">
         Volume:<br />
-        <br />
         <input id="volume-control" type="range" min="0" max="20" value="2" step="0.1" class="volume-control" /><br />
         <br />
+        <!-- //
+        In case of need, here are all the media control buttons in emoji form: ⏺️ ▶️ ⏸ ⏹ ⏮️ ⏪ ⏩ ⏭️
+        // -->
         <button type="button" id="start-button" class="control-button">Start</button>
-        <button type="button" id="stop-button" class="control-button">Stop</button><br />
+        <button type="button" id="stop-button" class="control-button">Stop</button>
+        <button type="button" id="next-button" class="control-button">Next</button><br />
         <br />
-        <button type="button" id="next-button" class="control-button">Next</button>
+        <a href="?mode=easy"><button type="button" id="difficulty-easy" class="control-button">Easy</button></a>
+        <a href="?mode=normal"><button type="button" id="difficulty-normal" class="control-button">Normal</button></a>
+        <a href="?mode=hard"><button type="button" id="difficulty-hard" class="control-button">Hard</button></a>
+        <a href="?mode=pro"><button type="button" id="difficulty-pro" class="control-button">Pro</button></a>
       </td>
     </tr>
   </table>
 
-  <script>
-  createToneGenerator('easy');
 
-  // Create the graphical faders
-  let geqFaderRow = document.getElementById('geqfaderrow');
-  let i=0;
+  <script>
+  let difficultyMode = getDifficultyMode();
+  createToneGenerator(difficultyMode);
+
+  // Create the graphical faders for the table
+  let geqFaderRow = document.getElementById('geqtablefaderrow');
+  let geqAmountOfFrequencies=0;
   let geqFaderFrequency = null;
+  let geqFaderFrequencyAbbreviated = null;
   for (geqFaderFrequency of frequencies)
   {
-    i++;
+    geqAmountOfFrequencies++;
     let geqFaderCell = geqFaderRow.insertCell(-1);
     geqFaderFrequencyAbbreviated = numberAbbreviator(geqFaderFrequency);
-    geqFaderCell.innerHTML = geqFaderFrequencyAbbreviated + 'Hz <br /><img class="geqfader" data-frequency="' + geqFaderFrequency + '" src="img/fader.png" /><br />' + geqFaderFrequencyAbbreviated + 'Hz';
+    geqFaderCell.innerHTML = '<div class="geqfaderimagewrapper"><img class="geqfaderimage" data-frequency="' + geqFaderFrequency + '" src="img/fader.png" />' + '<div class="geqfadertextcentertop">' + geqFaderFrequencyAbbreviated + '</div><div class="geqfadertextcenterbot">' + geqFaderFrequencyAbbreviated + '</div></div>';
     geqFaderCell.className = 'geq';
   };
 
+  // Alter colspan of table rows
+  let geqAlterColspanCells = document.getElementsByClassName('geqtablecell');
+  let geqAlterColspanCell = null;
+  for(geqAlterCell of geqAlterColspanCells)
+  {
+    geqAlterCell.setAttribute('colspan', geqAmountOfFrequencies);
+  }
+
   // Show result when user clicks on a fader
-  let geqFaders = document.getElementsByClassName('geqfader');
+  let geqFaders = document.getElementsByClassName('geqfaderimage');
   for(let geqFader of geqFaders){
     geqFader.addEventListener('click', function(e) {
       showResult(e.target.getAttribute('data-frequency'), frequency);
     });
-  };
-  </script>
+  }
+</script>
 
 </body>
 </html>

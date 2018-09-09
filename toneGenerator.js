@@ -89,7 +89,7 @@ function createRandomFrequency(range) {
   {
     frequencies = ["25", "40", "63", "100", "160", "250", "400", "630", "1000", "1600", "2500", "4000", "6300", "10000", "16000"];
   }
-  else if (range == 'pro')
+  else if(range == 'pro')
   {
     frequencies = ["20", "25", "31.5", "40", "50", "63", "80", "100", "125", "160", "200", "250", "315", "400", "500", "630", "800", "1000", "1250", "1600", "2000", "2500", "3150", "4000", "5000", "6300", "8000", "10000", "12500", "16000", "20000"];
   }
@@ -117,11 +117,21 @@ function numberAbbreviator(number) {
   let numberAbbreviated = null;
   if(number > 999)
   {
-    numberAbbreviated = number/1000 + ' k';
+    numberAbbreviated = number/1000 + 'K';
   }
   else
   {
-    numberAbbreviated = number + ' ';
+    numberAbbreviated = number;
   }
   return numberAbbreviated;
+};
+
+function getDifficultyMode() {
+  let urlParameters = new URLSearchParams(location.search);
+  let difficultyMode = urlParameters.get('mode');
+  if(!difficultyMode)
+  {
+    difficultyMode = 'easy';
+  }
+  return difficultyMode;
 };
