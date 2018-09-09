@@ -1,4 +1,4 @@
-# frequency-trainer
+# Frequency Trainer
 
 Frequency Trainer is an audio frequency trainer web app. It can be a used as a training tool for audio technicians to learn to recognize frequencies.
 
