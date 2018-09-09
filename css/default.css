@@ -94,7 +94,7 @@ td.geqtablecell
 {
 	height: 100%;
 	width: 100%;
-	min-width: 40px;
+	min-width: 60px;
 }
 
 .geqfaderimagewrapper
@@ -104,6 +104,7 @@ td.geqtablecell
 	color: white;
 	padding: 0px;
 	text-shadow: 2px 2px 20px black;
+	font-size: x-large;
 }
 
 .geqfadertextcentertop
