@@ -131,7 +131,7 @@ function getDifficultyMode() {
   let difficultyMode = urlParameters.get('mode');
   if(!difficultyMode)
   {
-    difficultyMode = 'normal';
+    difficultyMode = 'easy';
   }
   return difficultyMode;
 };
