@@ -47,7 +47,7 @@
   let geqAmountOfFrequencies=0;
   let geqFaderFrequency = null;
   let geqFaderFrequencyAbbreviated = null;
-  for (geqFaderFrequency of frequencies)
+  for (geqFaderFrequency of randomFrequencies)
   {
     geqAmountOfFrequencies++;
     let geqFaderCell = geqFaderRow.insertCell(-1);
@@ -68,7 +68,7 @@
   let geqFaders = document.getElementsByClassName('geqfaderimage');
   for(let geqFader of geqFaders){
     geqFader.addEventListener('click', function(e) {
-      showResult(e.target.getAttribute('data-frequency'), frequency);
+      showResult(e.target.getAttribute('data-frequency'), randomFrequency);
     });
   }
 </script>

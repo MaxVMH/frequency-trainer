@@ -4,7 +4,7 @@
 
 let audioCtx = null;
 let toneGenerator = null;
-let amplifier = null;
+let toneAmplifier = null;
 
 let startButton = null;
 let stopButton = null;
@@ -15,18 +15,18 @@ let startTimer = null;
 let stopTimer = 3;
 
 let difficultyLevel = null;
-let frequency = null;
-let frequencies = null;
+let randomFrequency = null;
+let randomFrequencies = null;
 
 function createToneGenerator(difficulty) {
     'use strict';
     // Create objects
     audioCtx = new(window.AudioContext || window.webkitAudioContext)();
-    amplifier = audioCtx.createGain();
+    toneAmplifier = audioCtx.createGain();
 
     // Pick a frequency
     difficultyLevel = difficulty;
-    frequency = createRandomFrequency(difficultyLevel);
+    randomFrequencies = createRandomFrequency(difficultyLevel);
 
     // Control buttons
     startButton = document.getElementById("start-button");
@@ -40,7 +40,7 @@ function createToneGenerator(difficulty) {
     volumeControl.addEventListener('input', changeVolume);
 
     // Set the gain volume
-    amplifier.gain.value = volumeControl.value / 100;
+    toneAmplifier.gain.value = volumeControl.value / 100;
 }
 
 function startToneGenerator() {
@@ -48,11 +48,11 @@ function startToneGenerator() {
     // Create and configure the oscillator
     toneGenerator = audioCtx.createOscillator();
     toneGenerator.type = 'sine'; // could be sine, square, sawtooth or triangle
-    toneGenerator.frequency.value = frequency;
+    toneGenerator.frequency.value = randomFrequency;
 
-    // Connect toneGenerator -> amplifier -> output
-    toneGenerator.connect(amplifier);
-    amplifier.connect(audioCtx.destination);
+    // Connect toneGenerator -> toneAmplifier -> output
+    toneGenerator.connect(toneAmplifier);
+    toneAmplifier.connect(audioCtx.destination);
 
     // Fire up the toneGenerator
     toneGenerator.start(audioCtx.currentTime + startTimer);
@@ -75,13 +75,11 @@ function changeFrequency() {
 
 function changeVolume() {
     'use strict';
-    amplifier.gain.value = volumeControl.value / 100;
+    toneAmplifier.gain.value = volumeControl.value / 100;
 }
 
 function createRandomFrequency(range) {
     'use strict';
-    let randomFrequency = null;
-    let randomFrequencies = null;
     if (range === 'easy') {
         randomFrequencies = ["250", "800", "2500", "8000"];
     } else if (range === 'normal') {
@@ -91,8 +89,8 @@ function createRandomFrequency(range) {
     } else if (range === 'pro') {
         randomFrequencies = ["20", "25", "31.5", "40", "50", "63", "80", "100", "125", "160", "200", "250", "315", "400", "500", "630", "800", "1000", "1250", "1600", "2000", "2500", "3150", "4000", "5000", "6300", "8000", "10000", "12500", "16000", "20000"];
     }
-    randomFrequency = randomFrequencies[(Math.random() * frequencies.length) | 0];
-    return randomFrequency;
+    randomFrequency = randomFrequencies[Math.floor(Math.random() * randomFrequencies.length)];
+    return randomFrequencies;
 }
 
 function showResult(frequencyChosen, frequencyCorrect) {
