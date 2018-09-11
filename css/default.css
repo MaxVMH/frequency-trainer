@@ -5,13 +5,13 @@ body, button {
 
 h1 {
     margin: 0 10px 0 10px;
-    font-size: 40px;
+    font-size: 35px;
     text-decoration: underline;
 }
 
 h2 {
     margin: 0 10px 0 10px;
-    font-size: 30px;
+    font-size: 25px;
 }
 
 a {
@@ -23,7 +23,7 @@ a:hover {
 }
 
 button {
-    font-size: x-large;
+    font-size: 20px;
 }
 
 .volume-control {
@@ -59,18 +59,18 @@ button {
     margin: 0 auto;
     width: 90%;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(10em, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
 }
 
 .frequency-container {
     margin: 1px;
     border: 2px solid black;
-    min-width: 100px;
-    min-height: 100px;
-    font-size: xx-large;
+    min-width: 80px;
+    min-height: 80px;
     display: flex;
     align-items: center;
     justify-content: center;
+    font-size: calc(14px + 1vw);
 }
 
 .frequency-container:nth-child(1n+0) {
@@ -78,7 +78,7 @@ button {
 }
 
 .frequency-container:nth-child(2n+0) {
-    background: #29BF89;
+    background: #41658A;
 }
 
 .frequency-container:nth-child(3n+0) {
@@ -90,15 +90,15 @@ button {
 }
 
 .frequency-container:nth-child(5n+0) {
-    background: #41658A;
+    background: #525184;
 }
 
 .frequency-container:nth-child(6n+0) {
-    background: #414073;
+    background: #29BF89;
 }
 
 .frequency-container:nth-child(7n+0) {
-    background: #4C3957;
+    background: #5D4A79;
 }
 
 .frequency-container:nth-child(8n+0) {
