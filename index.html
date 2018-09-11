@@ -2,79 +2,78 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="description" content="Frequency Trainer is a free online (audio) frequency trainer."/>
-  <title>Frequency Trainer</title>
-  <link href="https://fonts.googleapis.com/css?family=Montserrat:900" rel="stylesheet">
-  <link rel="stylesheet" type="text/css" href="css/default.css" />
-  <script src="toneGenerator.js"></script>
+    <meta charset="utf-8" />
+    <meta name="description" content="Frequency Trainer is a free online (audio) frequency trainer."/>
+    <title>Frequency Trainer</title>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:900" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+    <script src="toneGenerator.js"></script>
 </head>
 <body>
+    <table class="geqtable">
+        <tr class="geqtablerow">
+            <td class="geqtablecell" colspan="1">
+                <h1 class="align-center">Frequency Trainer</h1>
+                <hr />
+            </td>
+        </tr>
+        <tr id="geqtablefaderrow" class="geqtablerow">
+        </tr>
+        <tr>
+            <td class="geqtablecell" colspan="1">
+                <hr />
+                Volume:<br />
+                <input id="volume-control" type="range" min="0" max="20" value="2" step="0.1" class="volume-control" /><br />
+                <br />
+                <button type="button" id="start-button" class="control-button">Start</button>
+                <button type="button" id="stop-button" class="control-button">Stop</button>
+                <button type="button" id="next-button" class="control-button">Next</button><br />
+                <br />
+                <a href="?mode=easy"><button type="button" id="difficulty-easy" class="control-button">Easy</button></a>
+                <a href="?mode=normal"><button type="button" id="difficulty-normal" class="control-button">Normal</button></a>
+                <a href="?mode=hard"><button type="button" id="difficulty-hard" class="control-button">Hard</button></a>
+                <a href="?mode=pro"><button type="button" id="difficulty-pro" class="control-button">Pro</button></a>
+            </td>
+        </tr>
+    </table>
 
-  <table class="geqtable">
-    <tr class="geqtablerow">
-      <td class="geqtablecell" colspan="1">
-        <h1 class="align-center">Frequency Trainer</h1>
-        <hr />
-      </td>
-    </tr>
-    <tr id="geqtablefaderrow" class="geqtablerow">
-    </tr>
-    <tr>
-      <td class="geqtablecell" colspan="1">
-        <hr />
-        Volume:<br />
-        <input id="volume-control" type="range" min="0" max="20" value="2" step="0.1" class="volume-control" /><br />
-        <br />
-        <button type="button" id="start-button" class="control-button">Start</button>
-        <button type="button" id="stop-button" class="control-button">Stop</button>
-        <button type="button" id="next-button" class="control-button">Next</button><br />
-        <br />
-        <a href="?mode=easy"><button type="button" id="difficulty-easy" class="control-button">Easy</button></a>
-        <a href="?mode=normal"><button type="button" id="difficulty-normal" class="control-button">Normal</button></a>
-        <a href="?mode=hard"><button type="button" id="difficulty-hard" class="control-button">Hard</button></a>
-        <a href="?mode=pro"><button type="button" id="difficulty-pro" class="control-button">Pro</button></a>
-      </td>
-    </tr>
-  </table>
+    <script>
+    let difficultyMode = getDifficultyMode();
+    createToneGenerator(difficultyMode);
 
-  <script>
-  let difficultyMode = getDifficultyMode();
-  createToneGenerator(difficultyMode);
+    // Create the graphical faders for the table
+    let geqFaderRow = document.getElementById('geqtablefaderrow');
+    let geqAmountOfFrequencies=0;
+    let geqFaderFrequency = null;
+    let geqFaderFrequencyAbbreviated = null;
+    for (geqFaderFrequency of randomFrequencies)
+    {
+        geqAmountOfFrequencies++;
+        let geqFaderCell = geqFaderRow.insertCell(-1);
+        geqFaderFrequencyAbbreviated = numberAbbreviator(geqFaderFrequency);
+        geqFaderCell.innerHTML = '<div class="geqfaderimagewrapper"><img class="geqfaderimage" data-frequency="' + geqFaderFrequency + '" src="img/fader.png" />' + '<div class="geqfadertextcentertop">' + geqFaderFrequencyAbbreviated + '</div><div class="geqfadertextcenterbot">' + geqFaderFrequencyAbbreviated + '</div></div>';
+        geqFaderCell.className = 'geq';
+    };
 
-  // Create the graphical faders for the table
-  let geqFaderRow = document.getElementById('geqtablefaderrow');
-  let geqAmountOfFrequencies=0;
-  let geqFaderFrequency = null;
-  let geqFaderFrequencyAbbreviated = null;
-  for (geqFaderFrequency of randomFrequencies)
-  {
-    geqAmountOfFrequencies++;
-    let geqFaderCell = geqFaderRow.insertCell(-1);
-    geqFaderFrequencyAbbreviated = numberAbbreviator(geqFaderFrequency);
-    geqFaderCell.innerHTML = '<div class="geqfaderimagewrapper"><img class="geqfaderimage" data-frequency="' + geqFaderFrequency + '" src="img/fader.png" />' + '<div class="geqfadertextcentertop">' + geqFaderFrequencyAbbreviated + '</div><div class="geqfadertextcenterbot">' + geqFaderFrequencyAbbreviated + '</div></div>';
-    geqFaderCell.className = 'geq';
-  };
+    // Alter colspan of table rows
+    let geqAlterColspanCells = document.getElementsByClassName('geqtablecell');
+    let geqAlterColspanCell = null;
+    for(geqAlterCell of geqAlterColspanCells)
+    {
+        geqAlterCell.setAttribute('colspan', geqAmountOfFrequencies);
+    }
 
-  // Alter colspan of table rows
-  let geqAlterColspanCells = document.getElementsByClassName('geqtablecell');
-  let geqAlterColspanCell = null;
-  for(geqAlterCell of geqAlterColspanCells)
-  {
-    geqAlterCell.setAttribute('colspan', geqAmountOfFrequencies);
-  }
-
-  // Show result when user clicks on a fader
-  let geqFaders = document.getElementsByClassName('geqfaderimage');
-  for(let geqFader of geqFaders){
-    geqFader.addEventListener('click', function(e) {
-      showResult(e.target.getAttribute('data-frequency'), randomFrequency);
-    });
-  }
-</script>
-<p class="align-center">
-  v.0.0.1<br />
-  <a href="info.html">info</a> - <a href="http://beta.frequencytrainer.com">beta</a> - <a href="https://github.com/MaxVMH/frequency-trainer">code</a>
-</p>
+    // Show result when user clicks on a fader
+    let geqFaders = document.getElementsByClassName('geqfaderimage');
+    for(let geqFader of geqFaders){
+        geqFader.addEventListener('click', function(e) {
+            showResult(e.target.getAttribute('data-frequency'), randomFrequency);
+        });
+    }
+    </script>
+    <p class="align-center">
+        v.0.0.1<br />
+        <a href="info.html">info</a> - <a href="http://beta.frequencytrainer.com">beta</a> - <a href="https://github.com/MaxVMH/frequency-trainer">code</a>
+    </p>
 </body>
 </html>

@@ -1,129 +1,116 @@
-*
-{
-	font-family: 'Montserrat', sans-serif;
+/*
+Font-family
+*/
+body, button {
+    font-family: 'Montserrat', sans-serif;
 }
 
-body
-{
-	margin: auto;
-	font-size: large;
-	max-width: 95%;
+/*
+Headers & links
+*/
+h1 {
+    margin: 0 0 10px 0;
+    font-size: xx-large;
+    text-decoration: underline;
 }
 
-h1
-{
-	margin: 0px 0px 10px 0px;
-	font-size: xx-large;
-	text-decoration: underline;
+h2 {
+    margin: 10px 0;
+    font-size: x-large;
+    text-decoration: underline;
+}
+
+h3 {
+    border: 0;
+    padding: 0;
+    margin: 0 0 5px 0;
+    font-size: large;
+    text-decoration: underline;
+}
+
+h4 {
+    margin: 10px 0;
+    font-size: large;
+    text-decoration: underline;
+}
+
+a {
+    color: #0000BB;
+}
+
+a:hover {
+    color: #000000;
+}
+
+/*
+Some text align helpers
+*/
+.align-left {
+    text-align: left;
+}
+
+.align-center {
+    text-align: center;
+}
+
+.align-right {
+    text-align: right;
 }
 
 
-h2
-{
-	margin: 10px 0px;
-	font-size: x-large;
-	text-decoration: underline;
+/*
+The graphic EQ table
+*/
+.geqtable {
+    margin: 30px auto;
+    border: 1px solid black;
+    box-shadow: 0 2px 4px 0 #666666;
+    text-align: center;
+    table-layout: fixed;
 }
 
-h3
-{
-	border: 0px;
-	padding: 0px;
-	margin: 0px 0px 5px 0px;
-	font-size: large;
-	text-decoration: underline;
+.geqtablecell {
+    margin: 0;
+    border: 0;
+    padding: 1px;
+    font-size: xx-large;
 }
 
-h4
-{
-	margin: 10px 0px;
-	font-size: large;
-	text-decoration: underline;
+.volume-control {
+    width: 100%;
 }
 
-a
-{
-	color: #0000BB;
+.geqfaderimage {
+    height: 100%;
+    width: 100%;
+    min-width: 55px;
 }
 
-a:hover
-{
-	color: #000000;
+.geqfaderimagewrapper {
+    position: relative;
+    text-align: center;
+    color: white;
+    padding: 0;
+    text-shadow: 2px 2px 20px black;
 }
 
-.align-left
-{
-	text-align: left;
+.geqfadertextcentertop {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: calc(16px + 1vw);
 }
 
-.align-center
-{
-	text-align: center;
+.geqfadertextcenterbot {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: calc(16px + 1vw);
 }
 
-.align-right
-{
-	text-align: right;
-}
-
-table.geqtable
-{
-	margin: auto;
-	margin-top: 30px;
-	border: 1px solid black;
-	padding: 10px;
-	box-shadow: 0px 2px 4px 0px #666666;
-	text-align: center;
-	table-layout: fixed;
-}
-
-td.geqtablecell
-{
-	margin: 0px;
-	border: 0px;
-	padding: 1px;
-	font-size: xx-large;
-}
-
-.volume-control
-{
-	width: 100%;
-}
-
-.geqfaderimage
-{
-	height: 100%;
-	width: 100%;
-	min-width: 60px;
-}
-
-.geqfaderimagewrapper
-{
-	position: relative;
-	text-align: center;
-	color: white;
-	padding: 0px;
-	text-shadow: 2px 2px 20px black;
-	font-size: x-large;
-}
-
-.geqfadertextcentertop
-{
-	position: absolute;
-	top: 20px;
-	left: 50%;
-	transform: translate(-50%, -50%);
-}
-
-.geqfadertextcenterbot
-{
-	position: absolute;
-	bottom: 0px;
-	left: 50%;
-	transform: translate(-50%, -50%);
-}
-
-button.control-button
-{
-	font-size: xx-large;
+/* The control button */
+.control-button {
+    font-size: xx-large;
 }
