@@ -71,6 +71,7 @@ button {
     align-items: center;
     justify-content: center;
     font-size: calc(14px + 1vw);
+	text-shadow: 1px 1px 15px white;
 }
 
 .frequency-container:nth-child(1n+0) {
