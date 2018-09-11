@@ -117,9 +117,9 @@ function numberAbbreviator(number) {
     'use strict';
     let numberAbbreviated = null;
     if (number > 999) {
-        numberAbbreviated = number / 1000 + 'K';
+        numberAbbreviated = number / 1000 + ' k';
     } else {
-        numberAbbreviated = number;
+        numberAbbreviated = number + ' ';
     }
     return numberAbbreviated;
 }
