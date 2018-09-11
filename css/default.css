@@ -65,8 +65,12 @@ button {
 .frequency-container {
     margin: 1px;
     border: 2px solid black;
-    padding: 40px;
+    min-width: 100px;
+    min-height: 100px;
     font-size: xx-large;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .frequency-container:nth-child(1n+0) {
@@ -81,14 +85,30 @@ button {
     background: #0083BB;
 }
 
-.frequency-container:nth-child(5n+0) {
+.frequency-container:nth-child(4n+0) {
     background: #BDBDBE;
 }
 
-.frequency-container:hover {
-    transition: all 0.5s;
-    -moz-transition: all 0.5s;
-    -o-transition: all 0.5s;
-    -webkit-transition: all 0.5s;
-    background: white;
+.frequency-container:nth-child(5n+0) {
+    background: #41658A;
+}
+
+.frequency-container:nth-child(6n+0) {
+    background: #414073;
+}
+
+.frequency-container:nth-child(7n+0) {
+    background: #4C3957;
+}
+
+.frequency-container:nth-child(8n+0) {
+    background: #845A6D;
+}
+
+.frequency-container:nth-child(9n+0) {
+    background: #6E75A8;
+}
+
+.frequency-container:nth-child(10n+0) {
+    background: #B0DAF1;
 }
