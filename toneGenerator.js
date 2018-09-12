@@ -32,8 +32,8 @@ function createToneGenerator(difficulty) {
     // Control buttons
     startButton = document.getElementById("start-button");
     stopButton = document.getElementById("stop-button");
-    volumeControl = document.getElementById("volume-control");
     nextButton = document.getElementById("next-button");
+    volumeControl = document.getElementById("volume-control");
 
     startButton.addEventListener('click', startToneGenerator);
     stopButton.addEventListener('click', stopToneGenerator);
