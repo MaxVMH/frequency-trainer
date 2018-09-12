@@ -1,16 +1,19 @@
-body, button {
+body {
     font-family: 'Montserrat', sans-serif;
     text-align: center;
+    max-width: 1300px;
+    margin: 0 auto;
+    padding-top: 10px;
 }
 
 h1 {
-    margin: 0 10px 0 10px;
-    font-size: 35px;
+    margin: 0;
+    font-size: 30px;
     text-decoration: underline;
 }
 
 h2 {
-    margin: 0 10px 0 10px;
+    margin: 0;
     font-size: 25px;
 }
 
@@ -23,93 +26,192 @@ a:hover {
 }
 
 button {
-    font-size: 20px;
-}
-
-.volume-control {
-    width: 100%;
-    margin: auto;
+    font-family: 'Montserrat', sans-serif;
+    text-align: center;
+    font-size: calc(10px + 1vw);
 }
 
 .title {
-    padding: 0 0 20px 0;
+    padding: 0;
     margin: auto;
-    width: 90%;
-}
-
-.controls {
-    padding: 50px 0 0 0;
-    margin: 0 auto;
-    width: 90%;
+    width: 95%;
 }
 
 .content {
-    padding: 50px 0 0 0;
+    padding: 30px 0 0 0;
     margin: 0 auto;
-    width: 90%;
+    width: 95%;
+}
+
+.controls {
+    padding: 0;
+    margin: 0 auto;
+    width: 95%;
+}
+
+.volume-control {
+    min-width: 200px;
+    width: 80%;
+    margin: auto;
 }
 
 .footer {
-    padding: 50px 0 0 0;
+    padding: 20px 0 0 0;
     margin: 0 auto;
-    width: 90%;
+    width: 95%;
 }
 
 .grid {
     margin: 0 auto;
-    width: 90%;
+    width: 95%;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(84px, 1fr));
 }
 
 .frequency-container {
-    margin: 1px;
-    border: 2px solid black;
+    margin: 2px;
+    border: 1px solid black;
+    padding: 0px;
+
     min-width: 80px;
     min-height: 80px;
+    max-width: 300px;
+    max-height: 300px;
+
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: calc(14px + 1vw);
-	text-shadow: 1px 1px 15px white;
+
+    font-size: calc(16px + 0.6vw);
+    text-shadow: 0px 0px 25px white;
 }
 
-.frequency-container:nth-child(1n+0) {
-    background: #7E8D85;
+.frequency-container:before {
+    content: '';
+    padding-top: 100%;
+    float: left;
 }
 
-.frequency-container:nth-child(2n+0) {
-    background: #41658A;
+[data-frequency="20"] {
+    background: #CC2828;
 }
 
-.frequency-container:nth-child(3n+0) {
-    background: #0083BB;
+[data-frequency="25"] {
+    background: #CC3028;
 }
 
-.frequency-container:nth-child(4n+0) {
-    background: #BDBDBE;
+[data-frequency="31.5"] {
+    background: #CC3928;
 }
 
-.frequency-container:nth-child(5n+0) {
-    background: #525184;
+[data-frequency="40"] {
+    background: #CC4128;
 }
 
-.frequency-container:nth-child(6n+0) {
-    background: #29BF89;
+[data-frequency="50"] {
+    background: #CC4928;
 }
 
-.frequency-container:nth-child(7n+0) {
-    background: #5D4A79;
+[data-frequency="63"] {
+    background: #CC5128;
 }
 
-.frequency-container:nth-child(8n+0) {
-    background: #845A6D;
+[data-frequency="80"] {
+    background: #CC5928;
 }
 
-.frequency-container:nth-child(9n+0) {
-    background: #6E75A8;
+[data-frequency="100"] {
+    background: #CC6128;
 }
 
-.frequency-container:nth-child(10n+0) {
-    background: #B0DAF1;
+[data-frequency="125"] {
+    background: #CC6A28;
+}
+
+[data-frequency="160"] {
+    background: #CC7228;
+}
+
+[data-frequency="200"] {
+    background: #CC7A28;
+}
+
+[data-frequency="250"] {
+    background: #CC8228;
+}
+
+[data-frequency="315"] {
+    background: #CC8A28;
+}
+
+[data-frequency="400"] {
+    background: #CC9228;
+}
+
+[data-frequency="500"] {
+    background: #CC9B28;
+}
+
+[data-frequency="630"] {
+    background: #CCAB28;
+}
+
+[data-frequency="800"] {
+    background: #CCBB28;
+}
+
+[data-frequency="1000"] {
+    background: #CCCC28;
+}
+
+[data-frequency="1250"] {
+    background: #BBCC28;
+}
+
+[data-frequency="1600"] {
+    background: #ABCC28;
+}
+
+[data-frequency="2000"] {
+    background: #9BCC28;
+}
+
+[data-frequency="2500"] {
+    background: #8ACC28;
+}
+
+[data-frequency="3150"] {
+    background: #7ACC28;
+}
+
+[data-frequency="4000"] {
+    background: #6ACC28;
+}
+
+[data-frequency="5000"] {
+    background: #59CC28;
+}
+
+[data-frequency="6300"] {
+    background: #49CC28;
+}
+
+[data-frequency="8000"] {
+    background: #39CC28;
+}
+
+[data-frequency="10000"] {
+    background: #28CC28;
+}
+
+[data-frequency="12500"] {
+    background: #28CC39;
+}
+
+[data-frequency="16000"] {
+    background: #28CC49;
+}
+
+[data-frequency="20000"] {
+    background: #28CC59;
 }
