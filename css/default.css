@@ -5,7 +5,7 @@ body {
 }
 
 h1 {
-    margin: 0;
+    margin: 0 auto;
     font-size: 30px;
     text-decoration: underline;
 }
@@ -38,6 +38,7 @@ button {
 
 .title {
     padding: 0;
+    margin: 0 auto;
     width: 95%;
 }
 
@@ -54,9 +55,10 @@ button {
 }
 
 .volume-control {
+    padding: 0;
+    margin: 0 auto;
     min-width: 200px;
     width: 80%;
-    margin: auto;
 }
 
 .footer {
