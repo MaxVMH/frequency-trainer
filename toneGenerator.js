@@ -62,7 +62,10 @@ function startToneGenerator() {
 
 function stopToneGenerator() {
     'use strict';
-    toneGenerator.disconnect();
+    if(toneGenerator)
+    {
+        toneGenerator.disconnect();
+    }
 }
 
 function changeFrequency() {
