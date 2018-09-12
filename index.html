@@ -44,11 +44,11 @@
     // Create the graphical faders for the table
     let grid = document.getElementsByClassName('grid')[0];
     let selectedRandomFrequency = null;
-    let selectedRandomFrequencyAbbreviated = null;
+    let selectedRandomFrequencyFormatted = null;
     for (selectedRandomFrequency of randomFrequencies)
     {
-        selectedRandomFrequencyAbbreviated = numberAbbreviator(selectedRandomFrequency);
-        grid.insertAdjacentHTML('beforeend', '<div class="frequency-container" data-frequency="' + selectedRandomFrequency + '">' + selectedRandomFrequencyAbbreviated + 'Hz</div>');
+        selectedRandomFrequencyFormatted = frequencyFormatter(selectedRandomFrequency);
+        grid.insertAdjacentHTML('beforeend', '<div class="frequency-container" data-frequency="' + selectedRandomFrequency + '">' + selectedRandomFrequencyFormatted + 'Hz</div>');
     };
 
     // Show result when user clicks on a fader

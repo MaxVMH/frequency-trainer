@@ -105,26 +105,26 @@ function createRandomFrequency(range) {
 
 function showResult(frequencyChosen, frequencyCorrect) {
     'use strict';
-    let numberAbbreviated = numberAbbreviator(frequencyChosen);
+    let frequencyFormatted = frequencyFormatter(frequencyChosen);
     if (frequencyChosen === frequencyCorrect) {
         stopToneGenerator();
-        if (window.confirm(numberAbbreviated + 'Hz is correct!\nLet\'s try another one!')) {
+        if (window.confirm(frequencyFormatted + 'Hz is correct!\nLet\'s try another one!')) {
             changeFrequency();
         }
     } else {
-        window.alert(numberAbbreviated + 'Hz is not correct.\nPlease try again.');
+        window.alert(frequencyFormatted + 'Hz is not correct.\nPlease try again.');
     }
 }
 
-function numberAbbreviator(number) {
+function frequencyFormatter(frequency) {
     'use strict';
-    let numberAbbreviated = null;
-    if (number > 999) {
-        numberAbbreviated = number / 1000 + ' k';
+    let frequencyFormatted = null;
+    if (frequency > 999) {
+        frequencyFormatted = frequency / 1000 + ' k';
     } else {
-        numberAbbreviated = number + ' ';
+        frequencyFormatted = frequency + ' ';
     }
-    return numberAbbreviated;
+    return frequencyFormatted;
 }
 
 function getDifficultyMode() {
