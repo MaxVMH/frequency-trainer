@@ -127,7 +127,7 @@ function getDifficultyMode() {
     let urlParameters = new URLSearchParams(location.search);
     let difficultyMode = urlParameters.get('mode');
 
-    if (!difficultyMode) {
+    if (difficultyMode !== 'easy' && difficultyMode !== 'normal' && difficultyMode !== 'hard' && difficultyMode !== 'pro') {
         difficultyMode = 'easy';
     }
 

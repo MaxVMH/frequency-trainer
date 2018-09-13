@@ -57,7 +57,7 @@
     nextButton.onclick = function () {
         frequency = changeFrequency(difficultyMode, frequency).frequency;
         stopToneGenerator();
-        startToneGenerator(frequency, volumeControl, 0.1, 3);
+        startToneGenerator(frequency, volumeControl, 0.05, 3);
     };
     let volumeControl = document.getElementById("volume-control");
     volumeControl.oninput = function () {
@@ -84,12 +84,12 @@
             if(getResult(frequencyChosen, frequency) === true) {
                 if (window.confirm(frequencyChosenFormatted + 'Hz is correct!\nLet\'s try another one!')) {
                     frequency = changeFrequency(difficultyMode, frequencyChosen).frequency;
-                    startToneGenerator(frequency, volumeControl, 0.1, 3);
+                    startToneGenerator(frequency, volumeControl, 0.05, 3);
                 }
             }
             else {
                 window.alert(frequencyChosenFormatted + 'Hz is not correct.\nPlease try again.');
-                startToneGenerator(frequency, volumeControl, 0.1, 3);
+                startToneGenerator(frequency, volumeControl, 0.05, 3);
             }
         });
     }
