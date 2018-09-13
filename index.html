@@ -39,7 +39,7 @@
 
     <script>
     let difficultyMode = getDifficultyMode();
-    createFrequencyTrainer(difficultyMode);
+    let frequencyTrainer = createFrequencyTrainer(difficultyMode);
 
     // Create the graphical faders for the table
     let grid = document.getElementsByClassName('grid')[0];
@@ -55,7 +55,17 @@
     let frequencyContainers = document.getElementsByClassName('frequency-container');
     for (let frequencyContainer of frequencyContainers) {
         frequencyContainer.addEventListener('click', function(e) {
-            showResult(difficultyMode, e.target.getAttribute('data-frequency'), randomFrequency);
+            let frequencyChosen = e.target.getAttribute('data-frequency');
+            let frequencyChosenFormatted = frequencyFormatter(frequencyChosen);
+                window.console.log('chosen frequency: ' + frequencyChosen + '\ncorrect frequency: ' + randomFrequency);
+            if(getResult(frequencyChosen, randomFrequency) === true) {
+                if (window.confirm(frequencyChosenFormatted + 'Hz is correct!\nLet\'s try another one!')) {
+                    changeFrequency(difficultyMode, frequencyChosen, frequencyTrainer.startTimer, frequencyTrainer.stopTimer);
+                }
+            }
+            else {
+                window.alert(frequencyChosenFormatted + 'Hz is not correct.\nPlease try again.');
+            }
         });
     }
     </script>
