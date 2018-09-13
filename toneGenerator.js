@@ -74,12 +74,12 @@ function stopToneGenerator() {
     }
 }
 
-function changeFrequency(difficultyMode, previousRandomFrequency, startTimer, stopTimer) {
+function changeFrequency(difficultyMode, previousFrequency, startTimer, stopTimer) {
     'use strict';
     let frequencyTrainer = null;
     stopToneGenerator();
     toneContext.close();
-    frequencyTrainer = createFrequencyTrainer(difficultyMode, previousRandomFrequency);
+    frequencyTrainer = createFrequencyTrainer(difficultyMode, previousFrequency);
     startTimer = 0.1;
     startToneGenerator(frequencyTrainer.frequency, startTimer, stopTimer);
     return {
