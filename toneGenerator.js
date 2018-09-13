@@ -2,7 +2,7 @@
 /*jslint browser */
 /*global window URLSearchParams*/
 
-let audioCtx = null;
+let toneContext = null;
 let toneGenerator = null;
 let toneAmplifier = null;
 
@@ -24,8 +24,8 @@ function createFrequencyTrainer(difficultyMode) {
     let newRandomFrequency = null;
 
     // Create objects
-    audioCtx = new(window.AudioContext || window.webkitAudioContext)();
-    toneAmplifier = audioCtx.createGain();
+    toneContext = new(window.AudioContext || window.webkitAudioContext)();
+    toneAmplifier = toneContext.createGain();
 
     // Pick a frequency
     frequencies = getFrequencies(difficultyMode);
@@ -53,17 +53,17 @@ function createFrequencyTrainer(difficultyMode) {
 function startToneGenerator() {
     'use strict';
     // Create and configure the oscillator
-    toneGenerator = audioCtx.createOscillator();
+    toneGenerator = toneContext.createOscillator();
     toneGenerator.type = 'sine'; // could be sine, square, sawtooth or triangle
     toneGenerator.frequency.value = randomFrequency;
 
     // Connect toneGenerator -> toneAmplifier -> output
     toneGenerator.connect(toneAmplifier);
-    toneAmplifier.connect(audioCtx.destination);
+    toneAmplifier.connect(toneContext.destination);
 
     // Fire up the toneGenerator
-    toneGenerator.start(audioCtx.currentTime + startTimer);
-    toneGenerator.stop(audioCtx.currentTime + startTimer + stopTimer);
+    toneGenerator.start(toneContext.currentTime + startTimer);
+    toneGenerator.stop(toneContext.currentTime + startTimer + stopTimer);
 }
 
 function stopToneGenerator() {
@@ -76,7 +76,7 @@ function stopToneGenerator() {
 function changeFrequency(difficultyMode) {
     'use strict';
     stopToneGenerator();
-    audioCtx.close();
+    toneContext.close();
     createFrequencyTrainer(difficultyMode);
     startTimer = 0.1;
     startToneGenerator();
