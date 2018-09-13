@@ -108,7 +108,7 @@ function getRandomFrequency(frequencies, lastRandomFrequency) {
     while (randomFrequency === lastRandomFrequency) {
         randomFrequency = frequencies[Math.floor(Math.random() * frequencies.length)];
     }
-    console.log('previous frequency: ' + lastRandomFrequency + '\nnew frequency: ' + randomFrequency);
+    window.console.log('previous frequency: ' + lastRandomFrequency + '\nnew frequency: ' + randomFrequency);
     lastRandomFrequency = randomFrequency;
     return {
         randomFrequency: randomFrequency,
