@@ -51,6 +51,9 @@ function createFrequencyTrainer(difficultyMode, lastRandomFrequency) {
 
 function startToneGenerator() {
     'use strict';
+    if (toneGenerator) {
+        toneGenerator.disconnect();
+    }
     // Create and configure the oscillator
     toneGenerator = toneContext.createOscillator();
     toneGenerator.type = 'sine'; // could be sine, square, sawtooth or triangle
@@ -59,7 +62,6 @@ function startToneGenerator() {
     // Connect toneGenerator -> toneAmplifier -> output
     toneGenerator.connect(toneAmplifier);
     toneAmplifier.connect(toneContext.destination);
-
     // Fire up the toneGenerator
     toneGenerator.start(toneContext.currentTime + startTimer);
     toneGenerator.stop(toneContext.currentTime + startTimer + stopTimer);
