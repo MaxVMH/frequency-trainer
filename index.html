@@ -40,28 +40,29 @@
     <script>
     let difficultyMode = getDifficultyMode();
     let frequencyTrainer = createFrequencyTrainer(difficultyMode);
-    let randomFrequency = frequencyTrainer.randomFrequency;
+    let frequency = frequencyTrainer.frequency;
 
-    // Create the graphical faders for the table
+    let selectedFrequency = null;
+    let selectedFrequencyFormatted = null;
+
+    // Create grid with frequencies
     let grid = document.getElementsByClassName('grid')[0];
-    let selectedRandomFrequency = null;
-    let selectedRandomFrequencyFormatted = null;
-    for (selectedRandomFrequency of frequencyTrainer.frequencies)
+    for (selectedFrequency of frequencyTrainer.frequencies)
     {
-        selectedRandomFrequencyFormatted = frequencyFormatter(selectedRandomFrequency);
-        grid.insertAdjacentHTML('beforeend', '<div class="frequency-container" data-frequency="' + selectedRandomFrequency + '">' + selectedRandomFrequencyFormatted + 'Hz</div>');
+        selectedFrequencyFormatted = frequencyFormatter(selectedFrequency);
+        grid.insertAdjacentHTML('beforeend', '<div class="frequency-container" data-frequency="' + selectedFrequency + '">' + selectedFrequencyFormatted + 'Hz</div>');
     };
 
-    // Show result when user clicks on a fader
+    // Show the result when user clicks on a frequency
     let frequencyContainers = document.getElementsByClassName('frequency-container');
     for (let frequencyContainer of frequencyContainers) {
         frequencyContainer.addEventListener('click', function(e) {
             let frequencyChosen = e.target.getAttribute('data-frequency');
             let frequencyChosenFormatted = frequencyFormatter(frequencyChosen);
-                window.console.log('chosen frequency: ' + frequencyChosen + '\ncorrect frequency: ' + randomFrequency);
-            if(getResult(frequencyChosen, randomFrequency) === true) {
+
+            if(getResult(frequencyChosen, frequency) === true) {
                 if (window.confirm(frequencyChosenFormatted + 'Hz is correct!\nLet\'s try another one!')) {
-                    randomFrequency = changeFrequency(difficultyMode, frequencyChosen, frequencyTrainer.startTimer, frequencyTrainer.stopTimer).frequency;
+                    frequency = changeFrequency(difficultyMode, frequencyChosen, frequencyTrainer.startTimer, frequencyTrainer.stopTimer).frequency;
                 }
             }
             else {

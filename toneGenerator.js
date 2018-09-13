@@ -46,7 +46,7 @@ function createFrequencyTrainer(difficultyMode, previousRandomFrequency) {
 
     return {
         frequencies,
-        randomFrequency,
+        frequency: randomFrequency,
         startTimer,
         stopTimer
     };
@@ -81,9 +81,9 @@ function changeFrequency(difficultyMode, previousRandomFrequency, startTimer, st
     toneContext.close();
     frequencyTrainer = createFrequencyTrainer(difficultyMode, previousRandomFrequency);
     startTimer = 0.1;
-    startToneGenerator(frequencyTrainer.randomFrequency, startTimer, stopTimer);
+    startToneGenerator(frequencyTrainer.frequency, startTimer, stopTimer);
     return {
-        frequency: frequencyTrainer.randomFrequency
+        frequency: frequencyTrainer.frequency
     };
 }
 
