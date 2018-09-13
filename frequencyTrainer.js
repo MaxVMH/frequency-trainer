@@ -6,19 +6,10 @@ let toneContext = null;
 let toneGenerator = null;
 let toneAmplifier = null;
 
-function createFrequencyTrainer(difficultyMode, previousRandomFrequency) {
+function createFrequencyTrainer(difficultyMode, previousFrequency) {
     'use strict';
     let frequencies = null;
-    let randomFrequency = null;
-    let randomAndPreviousRandomFrequency = null;
-
-    let startButton = null;
-    let stopButton = null;
-    let nextButton = null;
-    let volumeControl = null;
-
-    let startTimer = null;
-    let stopTimer = 3;
+    let frequency = null;
 
     // Create objects
     toneContext = new(window.AudioContext || window.webkitAudioContext)();
@@ -26,42 +17,28 @@ function createFrequencyTrainer(difficultyMode, previousRandomFrequency) {
 
     // Pick a frequency
     frequencies = getFrequencies(difficultyMode);
-    randomAndPreviousRandomFrequency = getRandomAndPreviousRandomFrequency(frequencies, previousRandomFrequency);
-    randomFrequency = randomAndPreviousRandomFrequency.randomFrequency;
-    previousRandomFrequency = randomAndPreviousRandomFrequency.previousRandomFrequency;
-
-    // Control buttons
-    startButton = document.getElementById("start-button");
-    stopButton = document.getElementById("stop-button");
-    nextButton = document.getElementById("next-button");
-    volumeControl = document.getElementById("volume-control");
-
-    startButton.onclick = function () {startToneGenerator(randomFrequency, startTimer, stopTimer);};
-    stopButton.onclick = function () {stopToneGenerator();};
-    nextButton.onclick = function () {changeFrequency(difficultyMode, previousRandomFrequency, startTimer, stopTimer);};
-    volumeControl.oninput = function () {changeVolume(volumeControl);};
-
-    // Set the gain volume
-    toneAmplifier.gain.value = volumeControl.value / 100;
+    frequency = getNewFrequency(frequencies, previousFrequency);
 
     return {
         frequencies,
-        frequency: randomFrequency,
-        startTimer,
-        stopTimer
+        frequency
     };
 }
 
-function startToneGenerator(frequency, startTimer, stopTimer) {
+function startToneGenerator(frequency, volumeControl, startTimer, stopTimer) {
     'use strict';
-    stopToneGenerator();
     // Create and configure the oscillator
     toneGenerator = toneContext.createOscillator();
     toneGenerator.type = 'sine'; // could be sine, square, sawtooth or triangle
     toneGenerator.frequency.value = frequency;
+
     // Connect toneGenerator -> toneAmplifier -> output
     toneGenerator.connect(toneAmplifier);
     toneAmplifier.connect(toneContext.destination);
+
+    // Set the gain volume
+    toneAmplifier.gain.value = volumeControl.value / 100;
+
     // Fire up the toneGenerator
     toneGenerator.start(toneContext.currentTime + startTimer);
     toneGenerator.stop(toneContext.currentTime + startTimer + stopTimer);
@@ -74,14 +51,13 @@ function stopToneGenerator() {
     }
 }
 
-function changeFrequency(difficultyMode, previousFrequency, startTimer, stopTimer) {
+function changeFrequency(difficultyMode, previousFrequency) {
     'use strict';
     let frequencyTrainer = null;
-    stopToneGenerator();
+
     toneContext.close();
     frequencyTrainer = createFrequencyTrainer(difficultyMode, previousFrequency);
-    startTimer = 0.1;
-    startToneGenerator(frequencyTrainer.frequency, startTimer, stopTimer);
+
     return {
         frequency: frequencyTrainer.frequency
     };
@@ -95,6 +71,7 @@ function changeVolume(volumeControl) {
 function getFrequencies(difficultyMode) {
     'use strict';
     let frequencies = null;
+
     if (difficultyMode === 'easy') {
         frequencies = ["250", "800", "2500", "8000"];
     } else if (difficultyMode === 'normal') {
@@ -104,43 +81,44 @@ function getFrequencies(difficultyMode) {
     } else if (difficultyMode === 'pro') {
         frequencies = ["20", "25", "31.5", "40", "50", "63", "80", "100", "125", "160", "200", "250", "315", "400", "500", "630", "800", "1000", "1250", "1600", "2000", "2500", "3150", "4000", "5000", "6300", "8000", "10000", "12500", "16000", "20000"];
     }
+
     return frequencies;
 }
 
-function getRandomAndPreviousRandomFrequency(frequencies, previousRandomFrequency) {
+function getNewFrequency(frequencies, previousFrequency) {
     'use strict';
-    let randomFrequency = null;
-    randomFrequency = frequencies[Math.floor(Math.random() * frequencies.length)];
+    let newFrequency = null;
+
+    newFrequency = frequencies[Math.floor(Math.random() * frequencies.length)];
     // Avoid giving the same frequency twice in a row
-    while (randomFrequency === previousRandomFrequency) {
-        randomFrequency = frequencies[Math.floor(Math.random() * frequencies.length)];
+    while (newFrequency === previousFrequency) {
+        newFrequency = frequencies[Math.floor(Math.random() * frequencies.length)];
     }
-    window.console.log('previous frequency: ' + previousRandomFrequency + '\nnew frequency: ' + randomFrequency);
-    previousRandomFrequency = randomFrequency;
-    return {
-        randomFrequency: randomFrequency,
-        previousRandomFrequency: previousRandomFrequency
-    };
+
+    return newFrequency;
 }
 
 function getResult(frequencyChosen, frequencyCorrect) {
     'use strict';
     let result = false;
+
     if (frequencyChosen === frequencyCorrect) {
-        stopToneGenerator();
         result = true;
     }
+
     return result;
 }
 
 function frequencyFormatter(frequency) {
     'use strict';
     let frequencyFormatted = null;
+
     if (frequency > 999) {
         frequencyFormatted = frequency / 1000 + ' k';
     } else {
         frequencyFormatted = frequency + ' ';
     }
+
     return frequencyFormatted;
 }
 
@@ -148,8 +126,10 @@ function getDifficultyMode() {
     'use strict';
     let urlParameters = new URLSearchParams(location.search);
     let difficultyMode = urlParameters.get('mode');
+
     if (!difficultyMode) {
         difficultyMode = 'easy';
     }
+
     return difficultyMode;
 }

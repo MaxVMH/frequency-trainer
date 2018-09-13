@@ -7,7 +7,7 @@
     <title>Frequency Trainer</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:900" />
     <link rel="stylesheet" type="text/css" href="css/default.css" />
-    <script src="toneGenerator.js"></script>
+    <script src="frequencyTrainer.js"></script>
 </head>
 <body>
     <div class="body">
@@ -38,35 +38,58 @@
     </div>
 
     <script>
+    // Initiate frequencyTrainer
     let difficultyMode = getDifficultyMode();
     let frequencyTrainer = createFrequencyTrainer(difficultyMode);
     let frequency = frequencyTrainer.frequency;
 
-    let selectedFrequency = null;
-    let selectedFrequencyFormatted = null;
+    // Control buttons
+    let startButton = document.getElementById("start-button");
+    startButton.onclick = function () {
+        stopToneGenerator();
+        startToneGenerator(frequency, volumeControl, 0, 3);
+    };
+    let stopButton = document.getElementById("stop-button");
+    stopButton.onclick = function () {
+        stopToneGenerator();
+    };
+    let nextButton = document.getElementById("next-button");
+    nextButton.onclick = function () {
+        frequency = changeFrequency(difficultyMode, frequency).frequency;
+        stopToneGenerator();
+        startToneGenerator(frequency, volumeControl, 0.1, 3);
+    };
+    let volumeControl = document.getElementById("volume-control");
+    volumeControl.oninput = function () {
+        changeVolume(volumeControl);
+    };
 
     // Create grid with frequencies
-    let grid = document.getElementsByClassName('grid')[0];
+    let selectedFrequencyFormatted = null;
+    let frequencyGrid = document.getElementsByClassName('grid')[0];
     for (selectedFrequency of frequencyTrainer.frequencies)
     {
         selectedFrequencyFormatted = frequencyFormatter(selectedFrequency);
-        grid.insertAdjacentHTML('beforeend', '<div class="frequency-container" data-frequency="' + selectedFrequency + '">' + selectedFrequencyFormatted + 'Hz</div>');
+        frequencyGrid.insertAdjacentHTML('beforeend', '<div class="frequency-container" data-frequency="' + selectedFrequency + '">' + selectedFrequencyFormatted + 'Hz</div>');
     };
 
     // Show the result when user clicks on a frequency
     let frequencyContainers = document.getElementsByClassName('frequency-container');
     for (let frequencyContainer of frequencyContainers) {
         frequencyContainer.addEventListener('click', function(e) {
+            stopToneGenerator();
             let frequencyChosen = e.target.getAttribute('data-frequency');
             let frequencyChosenFormatted = frequencyFormatter(frequencyChosen);
 
             if(getResult(frequencyChosen, frequency) === true) {
                 if (window.confirm(frequencyChosenFormatted + 'Hz is correct!\nLet\'s try another one!')) {
-                    frequency = changeFrequency(difficultyMode, frequencyChosen, frequencyTrainer.startTimer, frequencyTrainer.stopTimer).frequency;
+                    frequency = changeFrequency(difficultyMode, frequencyChosen).frequency;
+                    startToneGenerator(frequency, volumeControl, 0.1, 3);
                 }
             }
             else {
                 window.alert(frequencyChosenFormatted + 'Hz is not correct.\nPlease try again.');
+                startToneGenerator(frequency, volumeControl, 0.1, 3);
             }
         });
     }
