@@ -40,12 +40,13 @@
     <script>
     let difficultyMode = getDifficultyMode();
     let frequencyTrainer = createFrequencyTrainer(difficultyMode);
+    let randomFrequency = frequencyTrainer.randomFrequency;
 
     // Create the graphical faders for the table
     let grid = document.getElementsByClassName('grid')[0];
     let selectedRandomFrequency = null;
     let selectedRandomFrequencyFormatted = null;
-    for (selectedRandomFrequency of randomFrequencies)
+    for (selectedRandomFrequency of frequencyTrainer.frequencies)
     {
         selectedRandomFrequencyFormatted = frequencyFormatter(selectedRandomFrequency);
         grid.insertAdjacentHTML('beforeend', '<div class="frequency-container" data-frequency="' + selectedRandomFrequency + '">' + selectedRandomFrequencyFormatted + 'Hz</div>');
@@ -60,7 +61,7 @@
                 window.console.log('chosen frequency: ' + frequencyChosen + '\ncorrect frequency: ' + randomFrequency);
             if(getResult(frequencyChosen, randomFrequency) === true) {
                 if (window.confirm(frequencyChosenFormatted + 'Hz is correct!\nLet\'s try another one!')) {
-                    changeFrequency(difficultyMode, frequencyChosen, frequencyTrainer.startTimer, frequencyTrainer.stopTimer);
+                    randomFrequency = changeFrequency(difficultyMode, frequencyChosen, frequencyTrainer.startTimer, frequencyTrainer.stopTimer).frequency;
                 }
             }
             else {
