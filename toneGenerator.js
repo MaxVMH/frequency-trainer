@@ -9,8 +9,8 @@ let toneAmplifier = null;
 function createFrequencyTrainer(difficultyMode, previousRandomFrequency) {
     'use strict';
     let frequencies = null;
-    let newRandomFrequency = null;
     let randomFrequency = null;
+    let randomAndPreviousRandomFrequency = null;
 
     let startButton = null;
     let stopButton = null;
@@ -26,9 +26,9 @@ function createFrequencyTrainer(difficultyMode, previousRandomFrequency) {
 
     // Pick a frequency
     frequencies = getFrequencies(difficultyMode);
-    newRandomFrequency = getRandomAndPreviousRandomFrequency(frequencies, previousRandomFrequency);
-    randomFrequency = newRandomFrequency.randomFrequency;
-    previousRandomFrequency = newRandomFrequency.previousRandomFrequency;
+    randomAndPreviousRandomFrequency = getRandomAndPreviousRandomFrequency(frequencies, previousRandomFrequency);
+    randomFrequency = randomAndPreviousRandomFrequency.randomFrequency;
+    previousRandomFrequency = randomAndPreviousRandomFrequency.previousRandomFrequency;
 
     // Control buttons
     startButton = document.getElementById("start-button");
