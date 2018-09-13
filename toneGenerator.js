@@ -16,9 +16,8 @@ let stopTimer = 3;
 
 let randomFrequency = null;
 let randomFrequencies = null;
-let lastRandomFrequency = null;
 
-function createFrequencyTrainer(difficultyMode) {
+function createFrequencyTrainer(difficultyMode, lastRandomFrequency) {
     'use strict';
     let frequencies = null;
     let newRandomFrequency = null;
@@ -43,7 +42,7 @@ function createFrequencyTrainer(difficultyMode) {
 
     startButton.addEventListener('click', startToneGenerator);
     stopButton.addEventListener('click', stopToneGenerator);
-    nextButton.onclick = function () {changeFrequency(difficultyMode);};
+    nextButton.onclick = function () {changeFrequency(difficultyMode, lastRandomFrequency);};
     volumeControl.addEventListener('input', changeVolume);
 
     // Set the gain volume
@@ -73,11 +72,11 @@ function stopToneGenerator() {
     }
 }
 
-function changeFrequency(difficultyMode) {
+function changeFrequency(difficultyMode, lastRandomFrequency) {
     'use strict';
     stopToneGenerator();
     toneContext.close();
-    createFrequencyTrainer(difficultyMode);
+    createFrequencyTrainer(difficultyMode, lastRandomFrequency);
     startTimer = 0.1;
     startToneGenerator();
 }
@@ -122,7 +121,7 @@ function showResult(difficultyMode, frequencyChosen, frequencyCorrect) {
     if (frequencyChosen === frequencyCorrect) {
         stopToneGenerator();
         if (window.confirm(frequencyFormatted + 'Hz is correct!\nLet\'s try another one!')) {
-            changeFrequency(difficultyMode);
+            changeFrequency(difficultyMode, frequencyCorrect);
         }
     } else {
         window.alert(frequencyFormatted + 'Hz is not correct.\nPlease try again.');
