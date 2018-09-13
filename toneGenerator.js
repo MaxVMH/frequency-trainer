@@ -19,15 +19,22 @@ let randomFrequency = null;
 let randomFrequencies = null;
 let lastRandomFrequency = null;
 
-function createToneGenerator(difficulty) {
+function createFrequencyTrainer(difficultyMode) {
     'use strict';
+    let frequencies = null;
+    let newRandomFrequency = null;
     // Create objects
     audioCtx = new(window.AudioContext || window.webkitAudioContext)();
     toneAmplifier = audioCtx.createGain();
 
     // Pick a frequency
-    difficultyLevel = difficulty;
-    randomFrequencies = createRandomFrequency(difficultyLevel);
+    difficultyLevel = difficultyMode;
+    frequencies = getFrequencies(difficultyMode);
+    randomFrequencies = frequencies;
+
+    newRandomFrequency = getRandomFrequency(frequencies, lastRandomFrequency);
+    randomFrequency = newRandomFrequency.randomFrequency;
+    lastRandomFrequency = newRandomFrequency.lastRandomFrequency;
 
     // Control buttons
     startButton = document.getElementById("start-button");
@@ -62,8 +69,7 @@ function startToneGenerator() {
 
 function stopToneGenerator() {
     'use strict';
-    if(toneGenerator)
-    {
+    if (toneGenerator) {
         toneGenerator.disconnect();
     }
 }
@@ -72,7 +78,7 @@ function changeFrequency() {
     'use strict';
     stopToneGenerator();
     audioCtx.close();
-    createToneGenerator(difficultyLevel);
+    createFrequencyTrainer(difficultyLevel);
     startTimer = 0.1;
     startToneGenerator();
 }
@@ -82,25 +88,33 @@ function changeVolume() {
     toneAmplifier.gain.value = volumeControl.value / 100;
 }
 
-function createRandomFrequency(range) {
+function getFrequencies(difficultyMode) {
     'use strict';
-    if (range === 'easy') {
-        randomFrequencies = ["250", "800", "2500", "8000"];
-    } else if (range === 'normal') {
-        randomFrequencies = ["100", "200", "400", "800", "1600", "3150", "6300", "12500"];
-    } else if (range === 'hard') {
-        randomFrequencies = ["80", "125", "160", "250", "315", "500", "630", "1000", "1250", "2000", "2500", "4000", "5000", "8000", "10000", "16000"];
-    } else if (range === 'pro') {
-        randomFrequencies = ["20", "25", "31.5", "40", "50", "63", "80", "100", "125", "160", "200", "250", "315", "400", "500", "630", "800", "1000", "1250", "1600", "2000", "2500", "3150", "4000", "5000", "6300", "8000", "10000", "12500", "16000", "20000"];
+    let frequencies = null;
+    if (difficultyMode === 'easy') {
+        frequencies = ["250", "800", "2500", "8000"];
+    } else if (difficultyMode === 'normal') {
+        frequencies = ["100", "200", "400", "800", "1600", "3150", "6300", "12500"];
+    } else if (difficultyMode === 'hard') {
+        frequencies = ["80", "125", "160", "250", "315", "500", "630", "1000", "1250", "2000", "2500", "4000", "5000", "8000", "10000", "16000"];
+    } else if (difficultyMode === 'pro') {
+        frequencies = ["20", "25", "31.5", "40", "50", "63", "80", "100", "125", "160", "200", "250", "315", "400", "500", "630", "800", "1000", "1250", "1600", "2000", "2500", "3150", "4000", "5000", "6300", "8000", "10000", "12500", "16000", "20000"];
     }
+    return frequencies;
+}
 
+function getRandomFrequency(frequencies, lastRandomFrequency) {
+    'use strict';
+    randomFrequency = frequencies[Math.floor(Math.random() * frequencies.length)];
     while (randomFrequency === lastRandomFrequency) {
-        randomFrequency = randomFrequencies[Math.floor(Math.random() * randomFrequencies.length)];
+        randomFrequency = frequencies[Math.floor(Math.random() * frequencies.length)];
     }
-
+    console.log('previous frequency: ' + lastRandomFrequency + '\nnew frequency: ' + randomFrequency);
     lastRandomFrequency = randomFrequency;
-
-    return randomFrequencies;
+    return {
+        randomFrequency: randomFrequency,
+        lastRandomFrequency: lastRandomFrequency
+    };
 }
 
 function showResult(frequencyChosen, frequencyCorrect) {
