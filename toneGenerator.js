@@ -6,11 +6,11 @@ let toneContext = null;
 let toneGenerator = null;
 let toneAmplifier = null;
 
-function createFrequencyTrainer(difficultyMode, lastRandomFrequency) {
+function createFrequencyTrainer(difficultyMode, previousRandomFrequency) {
     'use strict';
     let frequencies = null;
-    let randomFrequency = null;
     let newRandomFrequency = null;
+    let randomFrequency = null;
 
     let startButton = null;
     let stopButton = null;
@@ -26,10 +26,9 @@ function createFrequencyTrainer(difficultyMode, lastRandomFrequency) {
 
     // Pick a frequency
     frequencies = getFrequencies(difficultyMode);
-
-    newRandomFrequency = getRandomFrequency(frequencies, lastRandomFrequency);
+    newRandomFrequency = getRandomAndPreviousRandomFrequency(frequencies, previousRandomFrequency);
     randomFrequency = newRandomFrequency.randomFrequency;
-    lastRandomFrequency = newRandomFrequency.lastRandomFrequency;
+    previousRandomFrequency = newRandomFrequency.previousRandomFrequency;
 
     // Control buttons
     startButton = document.getElementById("start-button");
@@ -39,7 +38,7 @@ function createFrequencyTrainer(difficultyMode, lastRandomFrequency) {
 
     startButton.onclick = function () {startToneGenerator(randomFrequency, startTimer, stopTimer);};
     stopButton.onclick = function () {stopToneGenerator();};
-    nextButton.onclick = function () {changeFrequency(difficultyMode, lastRandomFrequency, startTimer, stopTimer);};
+    nextButton.onclick = function () {changeFrequency(difficultyMode, previousRandomFrequency, startTimer, stopTimer);};
     volumeControl.oninput = function () {changeVolume(volumeControl);};
 
     // Set the gain volume
@@ -60,7 +59,6 @@ function startToneGenerator(frequency, startTimer, stopTimer) {
     toneGenerator = toneContext.createOscillator();
     toneGenerator.type = 'sine'; // could be sine, square, sawtooth or triangle
     toneGenerator.frequency.value = frequency;
-
     // Connect toneGenerator -> toneAmplifier -> output
     toneGenerator.connect(toneAmplifier);
     toneAmplifier.connect(toneContext.destination);
@@ -76,12 +74,12 @@ function stopToneGenerator() {
     }
 }
 
-function changeFrequency(difficultyMode, lastRandomFrequency, startTimer, stopTimer) {
+function changeFrequency(difficultyMode, previousRandomFrequency, startTimer, stopTimer) {
     'use strict';
     let frequencyTrainer = null;
     stopToneGenerator();
     toneContext.close();
-    frequencyTrainer = createFrequencyTrainer(difficultyMode, lastRandomFrequency);
+    frequencyTrainer = createFrequencyTrainer(difficultyMode, previousRandomFrequency);
     startTimer = 0.1;
     startToneGenerator(frequencyTrainer.randomFrequency, startTimer, stopTimer);
     return {
@@ -109,19 +107,19 @@ function getFrequencies(difficultyMode) {
     return frequencies;
 }
 
-function getRandomFrequency(frequencies, lastRandomFrequency) {
+function getRandomAndPreviousRandomFrequency(frequencies, previousRandomFrequency) {
     'use strict';
     let randomFrequency = null;
     randomFrequency = frequencies[Math.floor(Math.random() * frequencies.length)];
     // Avoid giving the same frequency twice in a row
-    while (randomFrequency === lastRandomFrequency) {
+    while (randomFrequency === previousRandomFrequency) {
         randomFrequency = frequencies[Math.floor(Math.random() * frequencies.length)];
     }
-    window.console.log('previous frequency: ' + lastRandomFrequency + '\nnew frequency: ' + randomFrequency);
-    lastRandomFrequency = randomFrequency;
+    window.console.log('previous frequency: ' + previousRandomFrequency + '\nnew frequency: ' + randomFrequency);
+    previousRandomFrequency = randomFrequency;
     return {
         randomFrequency: randomFrequency,
-        lastRandomFrequency: lastRandomFrequency
+        previousRandomFrequency: previousRandomFrequency
     };
 }
 
