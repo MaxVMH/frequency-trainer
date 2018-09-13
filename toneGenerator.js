@@ -14,7 +14,6 @@ let volumeControl = null;
 let startTimer = null;
 let stopTimer = 3;
 
-let difficultyLevel = null;
 let randomFrequency = null;
 let randomFrequencies = null;
 let lastRandomFrequency = null;
@@ -23,12 +22,12 @@ function createFrequencyTrainer(difficultyMode) {
     'use strict';
     let frequencies = null;
     let newRandomFrequency = null;
+
     // Create objects
     audioCtx = new(window.AudioContext || window.webkitAudioContext)();
     toneAmplifier = audioCtx.createGain();
 
     // Pick a frequency
-    difficultyLevel = difficultyMode;
     frequencies = getFrequencies(difficultyMode);
     randomFrequencies = frequencies;
 
@@ -44,7 +43,7 @@ function createFrequencyTrainer(difficultyMode) {
 
     startButton.addEventListener('click', startToneGenerator);
     stopButton.addEventListener('click', stopToneGenerator);
-    nextButton.addEventListener('click', changeFrequency);
+    nextButton.onclick = function () {changeFrequency(difficultyMode);};
     volumeControl.addEventListener('input', changeVolume);
 
     // Set the gain volume
@@ -74,11 +73,11 @@ function stopToneGenerator() {
     }
 }
 
-function changeFrequency() {
+function changeFrequency(difficultyMode) {
     'use strict';
     stopToneGenerator();
     audioCtx.close();
-    createFrequencyTrainer(difficultyLevel);
+    createFrequencyTrainer(difficultyMode);
     startTimer = 0.1;
     startToneGenerator();
 }
@@ -117,13 +116,13 @@ function getRandomFrequency(frequencies, lastRandomFrequency) {
     };
 }
 
-function showResult(frequencyChosen, frequencyCorrect) {
+function showResult(difficultyMode, frequencyChosen, frequencyCorrect) {
     'use strict';
     let frequencyFormatted = frequencyFormatter(frequencyChosen);
     if (frequencyChosen === frequencyCorrect) {
         stopToneGenerator();
         if (window.confirm(frequencyFormatted + 'Hz is correct!\nLet\'s try another one!')) {
-            changeFrequency();
+            changeFrequency(difficultyMode);
         }
     } else {
         window.alert(frequencyFormatted + 'Hz is not correct.\nPlease try again.');

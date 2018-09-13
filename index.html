@@ -55,7 +55,7 @@
     let frequencyContainers = document.getElementsByClassName('frequency-container');
     for (let frequencyContainer of frequencyContainers) {
         frequencyContainer.addEventListener('click', function(e) {
-            showResult(e.target.getAttribute('data-frequency'), randomFrequency);
+            showResult(difficultyMode, e.target.getAttribute('data-frequency'), randomFrequency);
         });
     }
     </script>
