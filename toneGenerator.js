@@ -121,12 +121,10 @@ function getRandomFrequency(frequencies, lastRandomFrequency) {
 
 function getResult(frequencyChosen, frequencyCorrect) {
     'use strict';
-    let result = null;
+    let result = false;
     if (frequencyChosen === frequencyCorrect) {
         stopToneGenerator();
         result = true;
-    } else {
-        result = false;
     }
     return result;
 }
