@@ -37,8 +37,7 @@
     </div>
 
     <script>
-    // Initiate frequencyTrainer
-    let difficultyMode = 'easy'
+    let difficultyMode = 'easy' // default difficulty mode
     let frequencyTrainer = startFrequencyTrainer(difficultyMode);
     let frequency = frequencyTrainer.frequency;
 
@@ -62,6 +61,8 @@
     volumeControl.oninput = function () {
         changeVolume(volumeControl);
     };
+
+    // Difficulty buttons
     let difficultyButtons = document.getElementsByClassName('difficulty-button');
     Array.prototype.forEach.call(difficultyButtons, function (difficultyButton) {
         difficultyButton.onclick = function () {
@@ -70,15 +71,14 @@
             difficultyMode = difficultyButton.getAttribute('data-difficulty');
             frequencyTrainer = startFrequencyTrainer(difficultyMode, frequency);
             frequency = frequencyTrainer.frequency;
+            // Fill the frequency grid and show result when user clicks a frequency
             fillFrequencyGrid(frequencyTrainer.frequencies);
             showResult(volumeControl, difficultyMode, frequency);
         };
     });
 
-    // Create grid with frequencies
+    // Fill the frequency grid and show result when user clicks a frequency
     fillFrequencyGrid(frequencyTrainer.frequencies);
-
-    // Show the result
     showResult(volumeControl, difficultyMode, frequency);
     </script>
 </body>
