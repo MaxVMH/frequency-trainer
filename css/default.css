@@ -37,7 +37,7 @@ button {
 }
 
 .title {
-    padding: 0;
+    padding: 10px 0 0 0;
     margin: 0 auto;
     width: 95%;
 }
@@ -62,7 +62,7 @@ button {
 }
 
 .footer {
-    padding: 20px 0 0 0;
+    padding: 20px 0 10px 0;
     margin: 0 auto;
     width: 95%;
 }
@@ -77,7 +77,7 @@ button {
 .frequency-container {
     margin: 2px;
     border: 1px solid black;
-    padding: 0px;
+    padding: 0;
 
     min-width: 80px;
     min-height: 80px;
@@ -89,7 +89,7 @@ button {
     justify-content: center;
 
     font-size: calc(30px + 0.2vw);
-    text-shadow: 0px 0px 25px white;
+    text-shadow: 0 0 25px white;
 }
 
 .frequency-container:before {
