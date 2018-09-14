@@ -126,26 +126,3 @@ function fillFrequencyGrid(frequencies) {
         frequencyGrid.insertAdjacentHTML('beforeend', '<div class="frequency-container" data-frequency="' + frequency + '">' + frequencyFormatted + 'Hz</div>');
     });
 }
-
-function showResult(volumeControl, difficultyMode, frequency) {
-    'use strict';
-    let frequencyContainers = document.getElementsByClassName('frequency-container');
-
-    Array.prototype.forEach.call(frequencyContainers, function (frequencyContainer) {
-        frequencyContainer.addEventListener('click', function (e) {
-            stopToneGenerator();
-            let frequencyChosen = e.target.getAttribute('data-frequency');
-            let frequencyChosenFormatted = frequencyFormatter(frequencyChosen);
-
-            if (frequencyChosen === frequency) {
-                if (window.confirm(frequencyChosenFormatted + 'Hz is correct!\nLet\'s try another one!')) {
-                    frequency = changeFrequency(difficultyMode, frequencyChosen).frequency;
-                    startToneGenerator(frequency, volumeControl, 0.05, 3);
-                }
-            } else {
-                window.alert(frequencyChosenFormatted + 'Hz is not correct.\nPlease try again.');
-                startToneGenerator(frequency, volumeControl, 0.05, 3);
-            }
-        });
-    });
-}

@@ -73,13 +73,29 @@
             frequency = frequencyTrainer.frequency;
             // Fill the frequency grid and show result when user clicks a frequency
             fillFrequencyGrid(frequencyTrainer.frequencies);
-            showResult(volumeControl, difficultyMode, frequency);
         };
     });
 
-    // Fill the frequency grid and show result when user clicks a frequency
+    // Frequency grid + show result when user clicks on a frequency
     fillFrequencyGrid(frequencyTrainer.frequencies);
-    showResult(volumeControl, difficultyMode, frequency);
+    let frequencyContainers = document.getElementsByClassName('frequency-container');
+    Array.prototype.forEach.call(frequencyContainers, function (frequencyContainer) {
+        frequencyContainer.addEventListener('click', function (e) {
+            stopToneGenerator();
+            let frequencyChosen = e.target.getAttribute('data-frequency');
+            let frequencyChosenFormatted = frequencyFormatter(frequencyChosen);
+
+            if (frequencyChosen === frequency) {
+                if (window.confirm(frequencyChosenFormatted + 'Hz is correct!\nLet\'s try another one!')) {
+                    frequency = changeFrequency(difficultyMode, frequencyChosen).frequency;
+                    startToneGenerator(frequency, volumeControl, 0.05, 3);
+                }
+            } else {
+                window.alert(frequencyChosenFormatted + 'Hz is not correct.\nPlease try again.');
+                startToneGenerator(frequency, volumeControl, 0.05, 3);
+            }
+        });
+    });
     </script>
 </body>
 </html>
