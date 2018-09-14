@@ -114,15 +114,3 @@ function frequencyFormatter(frequency) {
 
     return frequencyFormatted;
 }
-
-function fillFrequencyGrid(frequencies) {
-    'use strict';
-    let frequencyFormatted = null;
-    let frequencyGrid = document.getElementsByClassName('grid')[0];
-
-    frequencyGrid.innerHTML = '';
-    frequencies.forEach(function (frequency) {
-        frequencyFormatted = frequencyFormatter(frequency);
-        frequencyGrid.insertAdjacentHTML('beforeend', '<div class="frequency-container" data-frequency="' + frequency + '">' + frequencyFormatted + 'Hz</div>');
-    });
-}

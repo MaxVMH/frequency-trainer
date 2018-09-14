@@ -37,65 +37,84 @@
     </div>
 
     <script>
-    let difficultyMode = 'easy' // default difficulty mode
-    let frequencyTrainer = startFrequencyTrainer(difficultyMode);
-    let frequency = frequencyTrainer.frequency;
+    (function () {
+        'use strict';
+        let difficultyMode = 'easy'; // default difficulty mode
+        let frequencyTrainer = startFrequencyTrainer(difficultyMode);
+        let frequency = frequencyTrainer.frequency;
+        let frequencyContainers = null;
 
-    // Control buttons
-    let startButton = document.getElementById("start-button");
-    startButton.onclick = function () {
-        stopToneGenerator();
-        startToneGenerator(frequency, volumeControl, 0, 3);
-    };
-    let stopButton = document.getElementById("stop-button");
-    stopButton.onclick = function () {
-        stopToneGenerator();
-    };
-    let nextButton = document.getElementById("next-button");
-    nextButton.onclick = function () {
-        stopToneGenerator();
-        frequency = changeFrequency(difficultyMode, frequency).frequency;
-        startToneGenerator(frequency, volumeControl, 0.05, 3);
-    };
-    let volumeControl = document.getElementById("volume-control");
-    volumeControl.oninput = function () {
-        changeVolume(volumeControl);
-    };
-
-    // Difficulty buttons
-    let difficultyButtons = document.getElementsByClassName('difficulty-button');
-    Array.prototype.forEach.call(difficultyButtons, function (difficultyButton) {
-        difficultyButton.onclick = function () {
+        // Control buttons
+        let startButton = document.getElementById('start-button');
+        startButton.onclick = function () {
             stopToneGenerator();
-            stopFrequencyTrainer();
-            difficultyMode = difficultyButton.getAttribute('data-difficulty');
-            frequencyTrainer = startFrequencyTrainer(difficultyMode, frequency);
-            frequency = frequencyTrainer.frequency;
-            // Fill the frequency grid and show result when user clicks a frequency
-            fillFrequencyGrid(frequencyTrainer.frequencies);
+            startToneGenerator(frequency, volumeControl, 0, 3);
         };
-    });
-
-    // Frequency grid + show result when user clicks on a frequency
-    fillFrequencyGrid(frequencyTrainer.frequencies);
-    let frequencyContainers = document.getElementsByClassName('frequency-container');
-    Array.prototype.forEach.call(frequencyContainers, function (frequencyContainer) {
-        frequencyContainer.addEventListener('click', function (e) {
+        let stopButton = document.getElementById('stop-button');
+        stopButton.onclick = function () {
             stopToneGenerator();
-            let frequencyChosen = e.target.getAttribute('data-frequency');
-            let frequencyChosenFormatted = frequencyFormatter(frequencyChosen);
+        };
+        let nextButton = document.getElementById('next-button');
+        nextButton.onclick = function () {
+            stopToneGenerator();
+            frequency = changeFrequency(difficultyMode, frequency).frequency;
+            startToneGenerator(frequency, volumeControl, 0.05, 3);
+        };
+        let volumeControl = document.getElementById('volume-control');
+        volumeControl.oninput = function () {
+            changeVolume(volumeControl);
+        };
 
-            if (frequencyChosen === frequency) {
-                if (window.confirm(frequencyChosenFormatted + 'Hz is correct!\nLet\'s try another one!')) {
-                    frequency = changeFrequency(difficultyMode, frequencyChosen).frequency;
-                    startToneGenerator(frequency, volumeControl, 0.05, 3);
-                }
-            } else {
-                window.alert(frequencyChosenFormatted + 'Hz is not correct.\nPlease try again.');
-                startToneGenerator(frequency, volumeControl, 0.05, 3);
-            }
+        function fillFrequencyGrid(frequencies) {
+            let frequencyFormatted = null;
+            let frequencyGrid = document.getElementsByClassName('grid')[0];
+
+            frequencyGrid.innerHTML = '';
+            frequencies.forEach(function (frequency) {
+                frequencyFormatted = frequencyFormatter(frequency);
+                frequencyGrid.insertAdjacentHTML('beforeend', '<div class="frequency-container" data-frequency="' + frequency + '">' + frequencyFormatted + 'Hz</div>');
+            });
+        }
+
+        function makeFrequencyGridInteractive() {
+            frequencyContainers = document.getElementsByClassName('frequency-container');
+            Array.prototype.forEach.call(frequencyContainers, function (frequencyContainer) {
+                frequencyContainer.onclick = function () {
+                    let frequencyChosen = frequencyContainer.getAttribute('data-frequency');
+                    let frequencyChosenFormatted = frequencyFormatter(frequencyChosen);
+
+                    stopToneGenerator();
+                    if (frequencyChosen === frequency) {
+                        if (window.confirm(frequencyChosenFormatted + 'Hz is correct!\nLet\'s try another one!')) {
+                            frequency = changeFrequency(difficultyMode, frequencyChosen).frequency;
+                            startToneGenerator(frequency, volumeControl, 0.05, 3);
+                        }
+                    } else {
+                        window.alert(frequencyChosenFormatted + 'Hz is not correct.\nPlease try again.');
+                        startToneGenerator(frequency, volumeControl, 0.05, 3);
+                    }
+                };
+            });
+        }
+
+        // Generate frequency grid
+        fillFrequencyGrid(frequencyTrainer.frequencies);
+        makeFrequencyGridInteractive();
+
+        // Difficulty buttons
+        let difficultyButtons = document.getElementsByClassName('difficulty-button');
+        Array.prototype.forEach.call(difficultyButtons, function (difficultyButton) {
+            difficultyButton.onclick = function () {
+                stopToneGenerator();
+                stopFrequencyTrainer();
+                difficultyMode = difficultyButton.getAttribute('data-difficulty');
+                frequencyTrainer = startFrequencyTrainer(difficultyMode, frequency);
+                frequency = frequencyTrainer.frequency;
+                fillFrequencyGrid(frequencyTrainer.frequencies);
+                makeFrequencyGridInteractive();
+            };
         });
-    });
+    }());
     </script>
 </body>
 </html>
