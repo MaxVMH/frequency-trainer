@@ -55,18 +55,6 @@ function stopToneGenerator() {
     }
 }
 
-function changeFrequency(difficultyMode, previousFrequency) {
-    'use strict';
-    let frequencyTrainer = null;
-
-    stopFrequencyTrainer();
-    frequencyTrainer = startFrequencyTrainer(difficultyMode, previousFrequency);
-
-    return {
-        frequency: frequencyTrainer.frequency
-    };
-}
-
 function changeVolume(volumeControl) {
     'use strict';
     toneAmplifier.gain.value = volumeControl.value / 100;
