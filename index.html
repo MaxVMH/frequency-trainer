@@ -21,12 +21,12 @@
             <button type="button" id="next-button" class="control-button">Next</button><br />
             <br />
             Volume:<br />
-            <input id="volume-control" type="range" min="0" max="20" value="2" step="0.1" class="volume-control" /><br />
+            <input type="range" id="volume-control" class="volume-control" min="0" max="20" value="2" step="0.1" /><br />
             <br />
-            <a href="?mode=easy"><button type="button" id="difficulty-easy" class="control-button">Easy</button></a>
-            <a href="?mode=normal"><button type="button" id="difficulty-normal" class="control-button">Normal</button></a>
-            <a href="?mode=hard"><button type="button" id="difficulty-hard" class="control-button">Hard</button></a>
-            <a href="?mode=pro"><button type="button" id="difficulty-pro" class="control-button">Pro</button></a><br />
+            <button type="button" id="difficulty-easy" class="difficulty-button" data-difficulty="easy">Easy</button>
+            <button type="button" id="difficulty-normal" class="difficulty-button" data-difficulty="normal">Normal</button>
+            <button type="button" id="difficulty-hard" class="difficulty-button" data-difficulty="hard">Hard</button>
+            <button type="button" id="difficulty-pro" class="difficulty-button" data-difficulty="pro">Pro</button><br />
             <br />
         </div>
         <div class="grid">
@@ -39,8 +39,8 @@
 
     <script>
     // Initiate frequencyTrainer
-    let difficultyMode = getDifficultyMode();
-    let frequencyTrainer = createFrequencyTrainer(difficultyMode);
+    let difficultyMode = 'easy'
+    let frequencyTrainer = startFrequencyTrainer(difficultyMode);
     let frequency = frequencyTrainer.frequency;
 
     // Control buttons
@@ -55,44 +55,32 @@
     };
     let nextButton = document.getElementById("next-button");
     nextButton.onclick = function () {
-        frequency = changeFrequency(difficultyMode, frequency).frequency;
         stopToneGenerator();
+        frequency = changeFrequency(difficultyMode, frequency).frequency;
         startToneGenerator(frequency, volumeControl, 0.05, 3);
     };
     let volumeControl = document.getElementById("volume-control");
     volumeControl.oninput = function () {
         changeVolume(volumeControl);
     };
+    let difficultyButtons = document.getElementsByClassName('difficulty-button');
+    Array.prototype.forEach.call(difficultyButtons, function (difficultyButton) {
+        difficultyButton.onclick = function () {
+            stopToneGenerator();
+            stopFrequencyTrainer();
+            difficultyMode = difficultyButton.getAttribute('data-difficulty');
+            frequencyTrainer = startFrequencyTrainer(difficultyMode, frequency);
+            frequency = frequencyTrainer.frequency;
+            fillFrequencyGrid(frequencyTrainer.frequencies);
+            showResult(volumeControl, difficultyMode, frequency);
+        };
+    });
 
     // Create grid with frequencies
-    let selectedFrequencyFormatted = null;
-    let frequencyGrid = document.getElementsByClassName('grid')[0];
-    for (selectedFrequency of frequencyTrainer.frequencies)
-    {
-        selectedFrequencyFormatted = frequencyFormatter(selectedFrequency);
-        frequencyGrid.insertAdjacentHTML('beforeend', '<div class="frequency-container" data-frequency="' + selectedFrequency + '">' + selectedFrequencyFormatted + 'Hz</div>');
-    };
+    fillFrequencyGrid(frequencyTrainer.frequencies);
 
-    // Show the result when user clicks on a frequency
-    let frequencyContainers = document.getElementsByClassName('frequency-container');
-    for (let frequencyContainer of frequencyContainers) {
-        frequencyContainer.addEventListener('click', function(e) {
-            stopToneGenerator();
-            let frequencyChosen = e.target.getAttribute('data-frequency');
-            let frequencyChosenFormatted = frequencyFormatter(frequencyChosen);
-
-            if(getResult(frequencyChosen, frequency) === true) {
-                if (window.confirm(frequencyChosenFormatted + 'Hz is correct!\nLet\'s try another one!')) {
-                    frequency = changeFrequency(difficultyMode, frequencyChosen).frequency;
-                    startToneGenerator(frequency, volumeControl, 0.05, 3);
-                }
-            }
-            else {
-                window.alert(frequencyChosenFormatted + 'Hz is not correct.\nPlease try again.');
-                startToneGenerator(frequency, volumeControl, 0.05, 3);
-            }
-        });
-    }
+    // Show the result
+    showResult(volumeControl, difficultyMode, frequency);
     </script>
 </body>
 </html>

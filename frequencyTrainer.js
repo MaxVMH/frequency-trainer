@@ -6,7 +6,7 @@ let toneContext = null;
 let toneGenerator = null;
 let toneAmplifier = null;
 
-function createFrequencyTrainer(difficultyMode, previousFrequency) {
+function startFrequencyTrainer(difficultyMode, previousFrequency) {
     'use strict';
     let frequencies = null;
     let frequency = null;
@@ -23,6 +23,10 @@ function createFrequencyTrainer(difficultyMode, previousFrequency) {
         frequencies,
         frequency
     };
+}
+
+function stopFrequencyTrainer() {
+    toneContext.close();
 }
 
 function startToneGenerator(frequency, volumeControl, startTimer, stopTimer) {
@@ -55,8 +59,8 @@ function changeFrequency(difficultyMode, previousFrequency) {
     'use strict';
     let frequencyTrainer = null;
 
-    toneContext.close();
-    frequencyTrainer = createFrequencyTrainer(difficultyMode, previousFrequency);
+    stopFrequencyTrainer();
+    frequencyTrainer = startFrequencyTrainer(difficultyMode, previousFrequency);
 
     return {
         frequency: frequencyTrainer.frequency
@@ -90,23 +94,12 @@ function getNewFrequency(frequencies, previousFrequency) {
     let newFrequency = null;
 
     newFrequency = frequencies[Math.floor(Math.random() * frequencies.length)];
-    // Avoid giving the same frequency twice in a row
+    // Avoid getting the same frequency twice in a row
     while (newFrequency === previousFrequency) {
         newFrequency = frequencies[Math.floor(Math.random() * frequencies.length)];
     }
 
     return newFrequency;
-}
-
-function getResult(frequencyChosen, frequencyCorrect) {
-    'use strict';
-    let result = false;
-
-    if (frequencyChosen === frequencyCorrect) {
-        result = true;
-    }
-
-    return result;
 }
 
 function frequencyFormatter(frequency) {
@@ -122,14 +115,37 @@ function frequencyFormatter(frequency) {
     return frequencyFormatted;
 }
 
-function getDifficultyMode() {
+function fillFrequencyGrid(frequencies) {
     'use strict';
-    let urlParameters = new URLSearchParams(location.search);
-    let difficultyMode = urlParameters.get('mode');
+    let frequencyFormatted = null;
+    let frequencyGrid = document.getElementsByClassName('grid')[0];
 
-    if (difficultyMode !== 'easy' && difficultyMode !== 'normal' && difficultyMode !== 'hard' && difficultyMode !== 'pro') {
-        difficultyMode = 'easy';
-    }
+    frequencyGrid.innerHTML = '';
+    frequencies.forEach(function (frequency) {
+        frequencyFormatted = frequencyFormatter(frequency);
+        frequencyGrid.insertAdjacentHTML('beforeend', '<div class="frequency-container" data-frequency="' + frequency + '">' + frequencyFormatted + 'Hz</div>');
+    });
+}
 
-    return difficultyMode;
+function showResult(volumeControl, difficultyMode, frequency) {
+    'use strict';
+    let frequencyContainers = document.getElementsByClassName('frequency-container');
+
+    Array.prototype.forEach.call(frequencyContainers, function (frequencyContainer) {
+        frequencyContainer.addEventListener('click', function (e) {
+            stopToneGenerator();
+            let frequencyChosen = e.target.getAttribute('data-frequency');
+            let frequencyChosenFormatted = frequencyFormatter(frequencyChosen);
+
+            if (frequencyChosen === frequency) {
+                if (window.confirm(frequencyChosenFormatted + 'Hz is correct!\nLet\'s try another one!')) {
+                    frequency = changeFrequency(difficultyMode, frequencyChosen).frequency;
+                    startToneGenerator(frequency, volumeControl, 0.05, 3);
+                }
+            } else {
+                window.alert(frequencyChosenFormatted + 'Hz is not correct.\nPlease try again.');
+                startToneGenerator(frequency, volumeControl, 0.05, 3);
+            }
+        });
+    });
 }
