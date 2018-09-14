@@ -1,10 +1,10 @@
 # Frequency Trainer
 
-Frequency Trainer is an audio frequency trainer web app. It can be a used as a training tool for audio technicians to learn to recognize frequencies.
+Frequency Trainer is an audio frequency trainer web application. It can be a used as a training tool for audio technicians to learn to recognize frequencies.
 
-It is mainly written in JavaScript. As it is a web app, it also consists of HTML and CSS.
+It is mainly written in JavaScript. As it is a web application, it also consists of HTML and CSS.
 
-A demo is available: www.frequencytrainer.com
+A demo is available: http://www.frequencytrainer.com
 
 # Requirements
 
@@ -14,9 +14,7 @@ A demo is available: www.frequencytrainer.com
 
 # Installation instructions
 
-* Download
-
-* Unzip
+* Download & unzip
 
 * Open index.html in your (favorite) browser
 
@@ -28,4 +26,4 @@ A demo is available: www.frequencytrainer.com
 
 # For your information
 
-* Extreme low and high frequencies can't be heard by everyone and can't be played by every speaker or headphone
+* It's possible you can't hear every frequency. Some speakers or headphones can't play and some people can't hear extreme low or extreme high frequencies.
