@@ -2,12 +2,12 @@
 /*jslint browser */
 /*global window URLSearchParams*/
 
+'use strict';
 let toneContext = null;
 let toneGenerator = null;
 let toneAmplifier = null;
 
 function startFrequencyTrainer(difficultyMode, previousFrequency) {
-    'use strict';
     let frequencies = null;
     let frequency = null;
 
@@ -30,7 +30,6 @@ function stopFrequencyTrainer() {
 }
 
 function startToneGenerator(frequency, volumeControl, startTimer, stopTimer) {
-    'use strict';
     // Create and configure the oscillator
     toneGenerator = toneContext.createOscillator();
     toneGenerator.type = 'sine'; // could be sine, square, sawtooth or triangle
@@ -49,19 +48,16 @@ function startToneGenerator(frequency, volumeControl, startTimer, stopTimer) {
 }
 
 function stopToneGenerator() {
-    'use strict';
     if (toneGenerator) {
         toneGenerator.disconnect();
     }
 }
 
 function changeVolume(volumeControl) {
-    'use strict';
     toneAmplifier.gain.value = volumeControl.value / 100;
 }
 
 function getFrequencies(difficultyMode) {
-    'use strict';
     let frequencies = null;
 
     if (difficultyMode === 'easy') {
@@ -78,7 +74,6 @@ function getFrequencies(difficultyMode) {
 }
 
 function getNewFrequency(frequencies, previousFrequency) {
-    'use strict';
     let newFrequency = null;
 
     newFrequency = frequencies[Math.floor(Math.random() * frequencies.length)];
@@ -91,7 +86,6 @@ function getNewFrequency(frequencies, previousFrequency) {
 }
 
 function frequencyFormatter(frequency) {
-    'use strict';
     let frequencyFormatted = null;
 
     if (frequency > 999) {
